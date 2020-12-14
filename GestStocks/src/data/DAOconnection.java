@@ -1,9 +1,6 @@
 package data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DAOconnection {
     private static final String USERNAME = "root";
@@ -18,7 +15,7 @@ public class DAOconnection {
         return DriverManager.getConnection(DATABASE, USERNAME, PASSWORD);
     }
 
-    /* Cria base de dados mediacenter */
+    /* Cria base de dados geststocks */
     public static void createDB(){
         try(Connection conn = DriverManager.getConnection(DB_INITIAL_URL, USERNAME, PASSWORD)){
             Statement stm = conn.createStatement();
@@ -36,7 +33,7 @@ public class DAOconnection {
         } catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
-    /* Comando para apagar base de dados mediacenter */
+    /* Comando para apagar base de dados geststocks */
     public static void deleteDB(){
         try(Connection conn = DriverManager.getConnection(DATABASE+CREDENTIALS)){
             Statement stm = conn.createStatement();
@@ -44,5 +41,23 @@ public class DAOconnection {
             stm.executeUpdate(sql);
             stm.close();
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    /*Devolve tamanho de tabela passada como argumento*/
+    public static int size(String table) {
+        int i = 0;
+        try (Connection conn = DAOconnection.getConnection();
+             Statement stm = conn.createStatement();
+             ResultSet rs = stm.executeQuery("SELECT count(*) FROM " + table)) {
+            if(rs.next()) {
+                i = rs.getInt(1);
+            }
+        }
+        catch (Exception e) {
+            // Erro a criar tabela...
+            e.printStackTrace();
+            throw new NullPointerException(e.getMessage());
+        }
+        return i;
     }
 }

@@ -2,6 +2,7 @@ package model;
 
 
 import data.DAOconnection;
+import data.LocalizacaoDAO;
 import data.RobotDAO;
 import data.UtilizadorDAO;
 
@@ -15,33 +16,60 @@ public class GestStocksFacade {
     private Map<String, Utilizador> users; //melhor com id ou string?????
     private Map<String, Robot> robots;
     private Map<String, Palete> paletes;
+    private Map<Integer, Localizacao> mapa;
     //private List<Requisicao> requisicoes;
     // ...
 
-    private Mapa mapa= new Mapa();
 
-    public GestStocksFacade(boolean cleanData) {
+    public GestStocksFacade(boolean cleanData, boolean newmap) {
         DAOconnection.createDB();
         this.users = UtilizadorDAO.getInstance();
         this.robots = RobotDAO.getInstance();
+        this.mapa = LocalizacaoDAO.getInstance();
+        if(newmap) createMapa();
         if(cleanData) this.clearDB();
     }
 
 
     public void clearDB(){
-        this.users.clear();
+        UtilizadorDAO.clearUserTable();
+    }
+
+    public void createMapa(){
+        this.mapa.put(0, new Localizacao(2, 0)); //zona de rececao
+
+        this.mapa.put(1, new Localizacao(5, 0, false)); //prateleira 1 Corredor 1
+        this.mapa.put(2, new Localizacao(6, 0, false)); //prateleira 2 Corredor 1
+        this.mapa.put(3, new Localizacao(7, 0, false)); //prateleira 3 Corredor 1
+        this.mapa.put(4, new Localizacao(8, 0, false)); //prateleira 4 Corredor 1
+        this.mapa.put(5, new Localizacao(9, 0, false)); //prateleira 5 Corredor 1
+
+        this.mapa.put(6, new Localizacao(5, 5, false)); //prateleira 6 Corredor 2
+        this.mapa.put(7, new Localizacao(6, 5, false)); //prateleira 7 Corredor 2
+        this.mapa.put(8, new Localizacao(7, 5, false)); //prateleira 8 Corredor 2
+        this.mapa.put(9, new Localizacao(8, 5, false)); //prateleira 9 Corredor 2
+        this.mapa.put(10, new Localizacao(9, 5, false)); //prateleira 10 Corredor 2
+
+        this.mapa.put(11, new Localizacao(10, 2, false)); //zona de entregas
+
+        // adicionar cantos
+        this.mapa.put(12, new Localizacao(3, 0, false)); //Canto 1
+        this.mapa.put(13, new Localizacao(3, 5, false)); //Canto 1
+
     }
 
 
     public void addThings(){
-        this.users.put("", new Utilizador("ana", "ana@ana", "aaaaa"));
+        this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
         this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
         this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
+
+        System.out.println(this.users.size());
     }
 
 
     void registarPalete(String codPalete){
-        new Palete (codPalete, mapa.getMapa().get(1));
+        new Palete (codPalete, new Localizacao());
     }
 
     Map<String, Localizacao> localizacoes(List<String> paletes){

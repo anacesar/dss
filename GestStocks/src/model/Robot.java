@@ -14,9 +14,25 @@ public class Robot {
     public Robot(String idRobot){
         this.idRobot = idRobot;
         this.estado= 0;
-        this.localizacao= 1;
     }
 
+    public String getIdRobot() {
+        return this.idRobot;
+    }
 
+    public int getEstado() {
+        return this.estado;
+    }
 
+    public int getLocalizacao() {
+        return this.localizacao;
+    }
+
+    public List<Integer> getPercurso() {
+        return this.percurso;
+    }
+
+    public double getDistancia() {
+        return this.distancia;
+    }
 }

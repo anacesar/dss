@@ -15,8 +15,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         try (Connection conn = DAOconnection.getConnection();
              Statement stm = conn.createStatement()) {
             String sql = "CREATE TABLE IF NOT EXISTS Utilizador (" +
-                    "idUser int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," +
-                    "username varchar(45) DEFAULT NULL," +
+                    "username varchar(45) NOT NULL PRIMARY KEY," +
                     "email varchar(45) DEFAULT NULL," +
                     "password varchar(45) DEFAULT NULL)";
             stm.executeUpdate(sql);
@@ -50,7 +49,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     }
 
     /** Apaga tabela de utilizadores */
-    public void clearUserTable(){
+    public static void clearUserTable(){
         try (Connection conn = DAOconnection.getConnection()) {
             Statement stm = conn.createStatement();
             stm.executeUpdate("DROP TABLE Utilizador");
@@ -61,8 +60,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     /** Comando usado para criar as tabelas dos utilizadores na base de dados. */
     public void createUserTables(){
         StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS Utilizador ");
-        sql.append("(idUser VARCHAR(10) NOT NULL PRIMARY KEY AUTO_INCREMENT, ");
-        sql.append("username VARCHAR(255) DEFAULT NULL, ");
+        sql.append("username VARCHAR(255) NOT NULL PRIMARY KEY, ");
         sql.append("email VARCHAR(255) DEFAULT NULL, ");
         sql.append("password VARCHAR(255) DEFAULT NULL)");
         //sql.append("cargo int(2) DEFAULT 0, ");
@@ -75,20 +73,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try (Connection conn = DAOconnection.getConnection();
-             Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT count(*) FROM Utilizador")) {
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        }
-        catch (Exception e) {
-            // Erro a criar tabela...
-            e.printStackTrace();
-            throw new NullPointerException(e.getMessage());
-        }
-        return i;
+        return DAOconnection.size("Utilizador");
     }
 
     /**
@@ -112,7 +97,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         try (Connection conn = DAOconnection.getConnection();
              Statement stm = conn.createStatement();
              ResultSet rs =
-                     stm.executeQuery("SELECT idUser FROM Utilizador WHERE idUser='"+key.toString()+"'")) {
+                     stm.executeQuery("SELECT username FROM Utilizador WHERE username='"+key.toString()+"'")) {
             r = rs.next();
         } catch (SQLException e) {
             // Database error!
@@ -134,13 +119,13 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     @Override
     public boolean containsValue(Object value) {
         Utilizador u = (Utilizador) value;
-        return this.containsKey((u.getIdUser()));
+        return this.containsKey((u.getUsername()));
     }
 
     /**
      * Obter um utilizador, dado o seu id
      *
-     * @param key id do utilizador
+     * @param key username do utilizador
      * @return o utilizador caso exista (null caso contrário)
      * @throws NullPointerException Em caso de o utilizador não existir na base de dados
      */
@@ -149,10 +134,10 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         try (Connection conn = DAOconnection.getConnection()){
             Utilizador u = null;
             Statement stm = conn.createStatement();
-            String sql = "SELECT * FROM Utilizador WHERE idUser='"+key+"'";
+            String sql = "SELECT * FROM Utilizador WHERE username='"+key+"'";
             ResultSet rs = stm.executeQuery(sql);
             if (rs.next()){
-                u = new Utilizador(rs.getString("idUser"),rs.getString("username"),rs.getString("email"), rs.getString("password"));
+                u = new Utilizador(rs.getString("username"),rs.getString("email"), rs.getString("password"));
             }
             return u;
         }
@@ -164,21 +149,21 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
      *
      * Caso o
      *
-     * @param key não é utilizado porque chave primária
+     * @param email não é utilizado porque chave primária
      * @param u o utilizador
      * @return para já retorna sempre null (deverá devolver o valor existente, caso exista um)
      * @throws NullPointerException Em caso de erro - deveriam ser criadas exepções do projecto
      */
     @Override
-    public Utilizador put(String key, Utilizador u) {
+    public Utilizador put(String email, Utilizador u) {
         Utilizador res = null;
         try (Connection conn = DAOconnection.getConnection();
              Statement stm = conn.createStatement()) {
 
             // Actualizar o aluno
             stm.executeUpdate(
-                    "INSERT INTO Utilizador VALUES (NULL, '"+u.getUsername()+"', '"+u.getEmail()+"', '"+u.getPassword()+"')" +
-                            "ON DUPLICATE KEY UPDATE username=VALUES(username), email=VALUES(email)");
+                    "INSERT INTO Utilizador VALUES ('"+u.getUsername()+"', '"+u.getEmail()+"', '"+u.getPassword()+"')" +
+                            "ON DUPLICATE KEY UPDATE email=VALUES(email), password=VALUES(password)");
         } catch (SQLException e) {
             // Database error!
             e.printStackTrace();
@@ -192,7 +177,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         Utilizador u = this.get(key);
         try (Connection conn = DAOconnection.getConnection();
              Statement stm = conn.createStatement()) {
-            stm.executeUpdate("DELETE FROM Utilizador WHERE idUser='"+key+"'");
+            stm.executeUpdate("DELETE FROM Utilizador WHERE username='"+key+"'");
         } catch (Exception e) {
             // Database error!
             e.printStackTrace();
@@ -205,7 +190,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     @Override
     public void putAll(Map<? extends String, ? extends Utilizador> utilizadores) {
         for(Utilizador u : utilizadores.values())
-            this.put(u.getIdUser(), u);
+            this.put(u.getUsername(), u);
     }
 
     @Override
@@ -217,7 +202,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
             String sql = "SELECT * FROM Utilizador";
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()){
-                keySet.add(String.valueOf(rs.getInt("idUser")));
+                keySet.add(String.valueOf(rs.getString("username")));
             }
             return keySet;
         }
@@ -232,7 +217,7 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
             String sql = "SELECT * FROM USERS";
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()){
-                col.add(new Utilizador(rs.getString("idUser"),rs.getString("username"),rs.getString("email"), rs.getString("password")));
+                col.add(new Utilizador(rs.getString("username"),rs.getString("email"), rs.getString("password")));
             }
             return col;
         }

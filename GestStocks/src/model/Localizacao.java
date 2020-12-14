@@ -7,13 +7,20 @@ public class Localizacao {
     private boolean ocupado; //caso de serem prateleiras saber se estao ocupadas
     //private boolean[] niveis = new boolean[5]; //n-> nr de niveis
 
+    public Localizacao() {
+        this.x = 0;
+        this.y = 0;
+        this.ocupado = false;
+    }
+
+
     public Localizacao(int x, int y) {
         this.x = x;
         this.y = y;
         this.ocupado = false;
     }
 
-    public Localizacao(int x, int y, boolean ocupado) {
+    public Localizacao(int x, int y, Boolean ocupado) {
         this.x = x;
         this.y = y;
         this.ocupado = ocupado;
@@ -26,6 +33,8 @@ public class Localizacao {
     public int getY() {
         return this.y;
     }
+
+    public Boolean getOcupado(){ return this.ocupado; }
 
     public boolean isOcupado() {
         return this.ocupado;
