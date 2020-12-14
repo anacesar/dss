@@ -20,11 +20,11 @@ public class Mapa {
         put(9, new Localizacao(8, 5, false)); //prateleira 9 Corredor 2
         put(10, new Localizacao(9, 5, false)); //prateleira 10 Corredor 2
 
-        put(11, new Localizacao(10, 2)); //zona de entregas
+        put(11, new Localizacao(10, 2, false)); //zona de entregas
 
         // adicionar cantos
-        put(12, new Localizacao(3, 0); //Canto 1
-        put(13, new Localizacao(3, 5); //Canto 1
+        put(12, new Localizacao(3, 0, false)); //Canto 1
+        put(13, new Localizacao(3, 5, false)); //Canto 1
 
     }};
 
@@ -33,10 +33,7 @@ public class Mapa {
     }
 
     int getDistancia(Mapa a, Mapa b){
-
-        if ()
+        return 0;
     }
-
-
 
 }

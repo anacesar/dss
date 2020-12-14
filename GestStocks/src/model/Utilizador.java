@@ -1,21 +1,26 @@
 package model;
 
 public class Utilizador {
-    private int idUser;
+    private String idUser;
     private String username;
     private String email;
     private String password;
     //private int cargo; //0--> gestor, 1-->servidor de produção
 
+    public Utilizador(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
-    public Utilizador(int idUser, String username, String email, String password) {
+    public Utilizador(String idUser, String username, String email, String password) {
         this.idUser = idUser;
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    public int getIdUser() {
+    public String getIdUser() {
         return this.idUser;
     }
 

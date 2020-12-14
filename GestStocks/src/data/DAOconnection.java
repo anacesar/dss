@@ -9,16 +9,18 @@ public class DAOconnection {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "Anacesar99";
     private static final String CREDENTIALS = "?user="+USERNAME+"&password="+PASSWORD;
-    private static final String DATABASE = "localhost:3306/GestStocks";
+    private static final String DATABASE = "jdbc:mysql://localhost:3306/GestStocks";
+    private static final String DB_INITIAL_URL = "jdbc:mysql://localhost:3306";
+
 
     /* Devolve conexão à base de dados */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://"+ DATABASE+CREDENTIALS);
+        return DriverManager.getConnection(DATABASE, USERNAME, PASSWORD);
     }
 
     /* Cria base de dados mediacenter */
     public static void createDB(){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+ DATABASE+CREDENTIALS)){
+        try(Connection conn = DriverManager.getConnection(DB_INITIAL_URL, USERNAME, PASSWORD)){
             Statement stm = conn.createStatement();
             String sql = "CREATE DATABASE IF NOT EXISTS GestStocks";
             stm.executeUpdate(sql);
@@ -28,7 +30,7 @@ public class DAOconnection {
 
     /* Comando genérico para criar tabelas */
     public static void createTables(String sql){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+ DATABASE+CREDENTIALS)){
+        try(Connection conn = DriverManager.getConnection(DATABASE+CREDENTIALS)){
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
         } catch (Exception e) {throw new NullPointerException(e.getMessage());}
@@ -36,7 +38,7 @@ public class DAOconnection {
 
     /* Comando para apagar base de dados mediacenter */
     public static void deleteDB(){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+ DATABASE+CREDENTIALS)){
+        try(Connection conn = DriverManager.getConnection(DATABASE+CREDENTIALS)){
             Statement stm = conn.createStatement();
             String sql = "DROP DATABASE GestStocks";
             stm.executeUpdate(sql);
