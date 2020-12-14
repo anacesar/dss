@@ -20,8 +20,8 @@ public class RobotDAO implements Map<String, Robot> {
             String sql = "CREATE TABLE IF NOT EXISTS Robot (" +
                     "idRobot varchar(10) NOT NULL PRIMARY KEY," +
                     "estado int(1) DEFAULT 0," +
-                    "dintancia double(45) DEFAULT 0, " +
-                    "localizacao int (10), foreign key(Localizacao) references turmas(idNodo))";
+                    "dintancia double(5,2) DEFAULT 0, " +
+                    "localizacao int(10), foreign key(Localizacao) references Localizacao(idNodo))";
             stm.executeUpdate(sql);
         } catch (SQLException e) {
             // Erro a criar tabela...
@@ -38,7 +38,6 @@ public class RobotDAO implements Map<String, Robot> {
     public static RobotDAO getInstance() {
         if (RobotDAO.singleton == null) {
             RobotDAO.singleton = new RobotDAO();
-            //UtilizadorDAO.singleton.createUserTables();
         }
         return RobotDAO.singleton;
     }
@@ -79,11 +78,12 @@ public class RobotDAO implements Map<String, Robot> {
     public Robot get(Object key) {
         try (Connection conn = DAOconnection.getConnection()){
             Robot r = null;
+
             Statement stm = conn.createStatement();
             String sql = "SELECT * FROM Robot WHERE idRobot='"+key+"'";
             ResultSet rs = stm.executeQuery(sql);
             if (rs.next()){
-                r = new Robot(rs.getString("idRobot"),rs.getString("estado"),rs.getString("distancia"), rs.getString("localizacao"));
+                r = new Robot(rs.getString("idRobot"),rs.getInt("estado"),rs.getDouble("distancia"));
             }
             return r;
         }

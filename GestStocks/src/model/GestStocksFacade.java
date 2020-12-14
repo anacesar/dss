@@ -1,10 +1,7 @@
 package model;
 
 
-import data.DAOconnection;
-import data.LocalizacaoDAO;
-import data.RobotDAO;
-import data.UtilizadorDAO;
+import data.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +21,9 @@ public class GestStocksFacade {
     public GestStocksFacade(boolean cleanData, boolean newmap) {
         DAOconnection.createDB();
         this.users = UtilizadorDAO.getInstance();
-        this.robots = RobotDAO.getInstance();
         this.mapa = LocalizacaoDAO.getInstance();
+        this.robots = RobotDAO.getInstance();
+        this.paletes = PaleteDAO.getInstance();
         if(newmap) createMapa();
         if(cleanData) this.clearDB();
     }
@@ -64,12 +62,13 @@ public class GestStocksFacade {
         this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
         this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
 
+
         System.out.println(this.users.size());
     }
 
 
     void registarPalete(String codPalete){
-        new Palete (codPalete, new Localizacao());
+        new Palete (codPalete, this.mapa.get(1));
     }
 
     Map<String, Localizacao> localizacoes(List<String> paletes){
@@ -78,6 +77,20 @@ public class GestStocksFacade {
             localizacoes.put(p.getCodPalete(),p.getLocalizacao());
         }
         return localizacoes;
+    }
+
+
+    Robot getRobot(Localizacao locPalete){
+        double d=1000;
+        String rs= this.robots.get(1).getIdRobot();
+        for(Robot r: this.robots.values()){
+            double dc=r.getLocalizacao().distancia(locPalete);
+            if(dc<d) {
+                d = dc;
+                rs = r.getIdRobot();
+            }
+        }
+        return new Robot(rs);
     }
 
 

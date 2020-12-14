@@ -9,7 +9,7 @@ public interface IGestStocks {
 
     Map<String, Localizacao> localizacoes(List<String> paletes);
 
-    Robot getRobot(Mapa locPalete);
+    Robot getRobot(Localizacao locPalete);
 
     void forneceRotas(Robot robot, String codPalete, Localizacao locPalete, Localizacao locDestino);
 

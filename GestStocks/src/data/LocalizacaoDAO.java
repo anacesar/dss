@@ -37,7 +37,6 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
     public static LocalizacaoDAO getInstance() {
         if (LocalizacaoDAO.singleton == null) {
             LocalizacaoDAO.singleton = new LocalizacaoDAO();
-            //UtilizadorDAO.singleton.createUserTables();
         }
         return LocalizacaoDAO.singleton;
     }

@@ -45,6 +45,11 @@ public class Localizacao {
     }
 
 
+    public double distancia(Localizacao l) {
+        return Math.sqrt(Math.pow(this.x - l.getX(), 2) +
+                Math.pow(this.y - l.getY(), 2));
+    }
+
     /*
     public boolean[] getNiveis() {
         return niveis;

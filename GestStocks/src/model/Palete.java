@@ -5,17 +5,21 @@ public class Palete {
     private Localizacao localizacao;
 
 
-    public Palete(String codPalete, Localizacao localizacao){
+    public Palete(String codPalete){
         this.codPalete = codPalete;
-        this.localizacao = localizacao;
+    }
+
+    public Palete(String codPalete, Localizacao loc){
+        this.codPalete = codPalete;
+        this.localizacao=loc;
     }
 
     public String getCodPalete() {
         return this.codPalete;
     }
 
-    public Localizacao getLocalizacao() {
-        return this.localizacao;
-    }
 
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
 }
