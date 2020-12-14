@@ -10,5 +10,12 @@ public class Palete {
         this.localizacao = localizacao;
     }
 
+    public String getCodPalete() {
+        return this.codPalete;
+    }
+
+    public Localizacao getLocalizacao() {
+        return this.localizacao;
+    }
 
 }
