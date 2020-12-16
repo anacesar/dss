@@ -1,5 +1,6 @@
 package data;
 
+import exceptions.NoUsernameException;
 import model.Utilizador;
 
 import java.sql.Connection;
@@ -138,6 +139,8 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
             ResultSet rs = stm.executeQuery(sql);
             if (rs.next()){
                 u = new Utilizador(rs.getString("username"),rs.getString("email"), rs.getString("password"));
+            }else /*username invalido */{
+                throw new NoUsernameException();
             }
             return u;
         }

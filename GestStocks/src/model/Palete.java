@@ -2,14 +2,10 @@ package model;
 
 public class Palete {
     private String codPalete;
-    private Localizacao localizacao;
+    private int localizacao; //nodo do mapa
 
 
-    public Palete(String codPalete){
-        this.codPalete = codPalete;
-    }
-
-    public Palete(String codPalete, Localizacao loc){
+    public Palete(String codPalete, int loc){
         this.codPalete = codPalete;
         this.localizacao=loc;
     }
@@ -19,7 +15,7 @@ public class Palete {
     }
 
 
-    public Localizacao getLocalizacao() {
+    public int getLocalizacao() {
         return localizacao;
     }
 }

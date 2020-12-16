@@ -1,9 +1,10 @@
 package data;
 
+import exceptions.NoLocalizacaoException;
 import model.Localizacao;
-import model.Utilizador;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
@@ -66,12 +67,23 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.size()==0;
     }
 
     @Override
-    public boolean containsKey(Object key) {
-        return false;
+    public boolean containsKey(Object key){
+        boolean r;
+        try (Connection conn = DAOconnection.getConnection();
+             Statement stm = conn.createStatement();
+             ResultSet rs =
+                     stm.executeQuery("SELECT * FROM Localizacao WHERE idNodo='"+key.toString()+"'")) {
+            r = rs.next();
+        } catch (SQLException e) {
+            // Database error!
+            e.printStackTrace();
+            throw new NullPointerException(e.getMessage());
+        }
+        return r;
     }
 
     @Override
@@ -79,9 +91,27 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
         return false;
     }
 
+
+    /**
+     *
+     * @param key idNodo do mapa de localizações
+     * @return Localizacao associada ao idNodo(key) - null caso contrário
+     */
     @Override
     public Localizacao get(Object key) {
-        return null;
+        try (Connection conn = DAOconnection.getConnection()){
+            Localizacao l = null;
+            Statement stm = conn.createStatement();
+            String sql = "SELECT * FROM Localizacao WHERE idNodo='"+key+"'";
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()){ //idNodo válido
+                l = new Localizacao(rs.getInt("x"),rs.getInt("y"), rs.getBoolean("ocupado"));
+            }else /*localizacao invalida */{
+                throw new NoLocalizacaoException();
+            }
+            return l;
+        }
+        catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
     @Override

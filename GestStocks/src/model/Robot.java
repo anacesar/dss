@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Robot {
     private String idRobot;
     private int estado; // 0-livre 1-ocupado
-    private Localizacao localizacao;
-    private List<Localizacao> percurso;
-    //private double distancia;
-
+    private String codPalete;
+    private int localizacao;
+    private List<Integer> robotPalete = new ArrayList<>();
+    private List<Integer> paleteDestino = new ArrayList<>();
 
 
     public Robot(String idRobot){
@@ -16,10 +19,10 @@ public class Robot {
         this.estado= 0;
     }
 
-    public Robot(String idRobot, int estado, double distancia) {
+    public Robot(String idRobot, int estado, int localizacao) {
         this.idRobot = idRobot;
         this.estado = estado;
-        // this.distancia = distancia;
+        this.localizacao = localizacao;
     }
 
     public String getIdRobot() {
@@ -30,17 +33,51 @@ public class Robot {
         return this.estado;
     }
 
-    public Localizacao getLocalizacao() {
+    public void setEstado(int estado){ this.estado=estado; }
+
+    public String getCodPalete() { return this.codPalete; }
+
+    public void setCodPalete(String codPalete) { this.codPalete = codPalete; }
+
+    public int getLocalizacao() {
         return this.localizacao;
     }
 
-    public List<Localizacao> getPercurso() {
-        return this.percurso;
+    public void setLocalizacao(int localizacao) {
+        this.localizacao = localizacao;
     }
 
-   /* public double getDistancia() {
-        return this.distancia;
+    public List<Integer> getRobotPalete() {
+        return this.robotPalete;
     }
 
-    */
+    public void setRobotPalete(List<Integer> robotPalete) {
+        this.robotPalete = new ArrayList<>(robotPalete);
+    }
+
+    public List<Integer> getPaleteDestino() {
+        return this.paleteDestino;
+    }
+
+    public void setPaleteDestino(List<Integer> paleteDestino) {
+        this.paleteDestino = new ArrayList<>(paleteDestino);
+    }
+
+    public List<Integer> getPercurso() {
+        List<Integer> percurso = new ArrayList<>(this.robotPalete);
+        percurso.addAll(this.paleteDestino);
+
+        return percurso;
+    }
+
+    @Override
+    public String toString() {
+        return "Robot{" +
+                "idRobot='" + idRobot + '\'' +
+                ", estado=" + estado +
+                ", codPalete='" + codPalete + '\'' +
+                ", localizacao=" + localizacao +
+                ", percurso=" + getPercurso() +
+                '}';
+    }
 }

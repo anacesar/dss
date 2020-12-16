@@ -7,19 +7,19 @@ public interface IGestStocks {
 
     void registarPalete(String codPalete);
 
-    Map<String, Localizacao> localizacoes(List<String> paletes);
+    Map<String, Integer> localizacoes(List<String> paletes);
 
-    Robot getRobot(Localizacao locPalete);
+    Robot getRobot(int locPalete);
 
-    void forneceRotas(Robot robot, String codPalete, Localizacao locPalete, Localizacao locDestino);
+    void forneceRotas(Robot robot, String codPalete, int locPalete, int locDestino);
 
     void transportarPalete(String codPalete);
 
-    void paleteRecolhida(String codPalete);
+    void paleteRecolhida(Robot robot, int locPalete);
 
-    void paleteEntregue(String codPalete);
+    void paleteEntregue(Robot robot);
 
-    void updateLocalizacao(String codPalete, Localizacao locDestino);
+    void updateLocalizacao(Robot robot);
 
 
 }

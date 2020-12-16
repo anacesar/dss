@@ -88,33 +88,44 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1607961036263" />
-    <state x="532" y="172" key="#com.intellij.ide.util.MemberChooser" timestamp="1607965847033">
+    <state x="532" y="172" key="#com.intellij.ide.util.MemberChooser" timestamp="1608057844291">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="532" y="172" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1607965847033" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1607965296437">
+    <state x="532" y="172" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1608057844291" />
+    <state width="1398" height="215" key="GridCell.Tab.0.bottom" timestamp="1608119202694">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1607965296437" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1607965296436">
+    <state width="1398" height="215" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1608119202694" />
+    <state width="1398" height="215" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1608047603324" />
+    <state width="1398" height="215" key="GridCell.Tab.0.center" timestamp="1608119202692">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1607965296436" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1607965296435">
+    <state width="1398" height="215" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1608119202692" />
+    <state width="1398" height="215" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1608047603319" />
+    <state width="1398" height="215" key="GridCell.Tab.0.left" timestamp="1608119202691">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1607965296435" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1607965296437">
+    <state width="1398" height="215" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1608119202691" />
+    <state width="1398" height="215" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1608047603314" />
+    <state width="1398" height="215" key="GridCell.Tab.0.right" timestamp="1608119202693">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1607965296437" />
+    <state width="1398" height="215" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1608119202693" />
+    <state width="1398" height="215" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1608047603321" />
     <state x="208" y="31" key="SettingsEditor" timestamp="1607961048258">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1607961048258" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1607960678854">
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1608030411590">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1607960678854" />
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1608030411590" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1608036745569">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1608036745569" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/GestStocks$Main.ic" NAME="Main Coverage Results" MODIFIED="1608037549290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
