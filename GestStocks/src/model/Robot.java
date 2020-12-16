@@ -71,10 +71,11 @@ public class Robot {
     }
 
     public void clearDataTransporte(){
-        this.robotPalete=new ArrayList<>();
-        this.paleteDestino=new ArrayList<>();
-        this.codPalete=null;
+        this.robotPalete = new ArrayList<>();
+        this.paleteDestino = new ArrayList<>();
+        this.codPalete = null;
     }
+
 
     @Override
     public String toString() {

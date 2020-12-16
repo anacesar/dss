@@ -173,4 +173,15 @@ public class RobotDAO implements Map<String, Robot> {
         return null;
     }
 
+
+    public void updateEstado(Robot robot){
+        try (Connection conn = DAOconnection.getConnection()){
+            Collection<Robot> col = new ArrayList<>();
+            Statement stm = conn.createStatement();
+            String sql = "UPDATE robot SET estado=" +robot.getEstado() + " where idRobot='" + robot.getIdRobot()+"'";
+            stm.executeQuery(sql);
+        }
+        catch (Exception e) {throw new NullPointerException(e.getMessage());}
+    }
+
 }

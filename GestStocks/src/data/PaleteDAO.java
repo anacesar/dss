@@ -1,11 +1,8 @@
 package data;
 
-import exceptions.NoLocalizacaoException;
-import exceptions.NoPaleteException;
+
 import model.Localizacao;
 import model.Palete;
-import model.Robot;
-import model.Utilizador;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -133,10 +130,15 @@ public class PaleteDAO implements Map<String, Palete> {
         try (Connection conn = DAOconnection.getConnection();
              Statement stm = conn.createStatement()) {
 
-            // Actualizar o aluno
+            // Inserir/Actualizar a palete
             stm.executeUpdate(
                     "INSERT INTO Palete VALUES ('"+p.getCodPalete()+"', '"+p.getLocalizacao()+"')" +
                             "ON DUPLICATE KEY UPDATE localizacao=VALUES(localizacao)");
+            //Atualizar localizacao da palete como ocupada se != 0
+            if(p.getLocalizacao()!=0)
+                stm.executeUpdate(
+                        "UPDATE Localizacao SET ocupado=1 where idNodo="+p.getLocalizacao());
+
         } catch (SQLException e) {
             // Database error!
             e.printStackTrace();

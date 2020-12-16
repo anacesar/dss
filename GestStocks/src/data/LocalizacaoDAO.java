@@ -1,6 +1,6 @@
 package data;
 
-import exceptions.NoLocalizacaoException;
+import exceptions.localizacaoException;
 import model.Localizacao;
 
 import java.sql.Connection;
@@ -107,7 +107,7 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
             if (rs.next()){ //idNodo válido
                 l = new Localizacao(rs.getInt("x"),rs.getInt("y"), rs.getBoolean("ocupado"));
             }else /*localizacao invalida */{
-                throw new NoLocalizacaoException();
+                throw new localizacaoException();
             }
             return l;
         }
@@ -139,10 +139,7 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
     }
 
     @Override
-    public void putAll(Map<? extends Integer, ? extends Localizacao> m) {
-
-    }
-
+    public void putAll(Map<? extends Integer, ? extends Localizacao> m) { }
 
     @Override
     public Set<Integer> keySet() {
@@ -158,4 +155,5 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
     public Set<Entry<Integer, Localizacao>> entrySet() {
         return null;
     }
+
 }

@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,13 +15,13 @@ public interface IGestStocks {
 
     void forneceRotas(Robot robot, String codPalete, int locPalete, int locDestino);
 
-    void transportarPalete(String codPalete);
+    void transportarPalete(String codPalete) throws paleteException, robotException, prateleiraException;
 
     void paleteRecolhida(Robot robot, int locPalete);
 
-    void paleteEntregue(Robot robot,int locDestino) ;
+    void paleteEntregue(Robot robot, Palete palete, int locDestino) ;
 
-    void updateLocalizacao(Robot robot, int locDestino);
+    void updateLocalizacao(Robot robot, Palete palete, Localizacao locDestino);
 
 
 }

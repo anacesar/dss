@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DAOconnection {
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "Xanolindo17";
+    private static final String PASSWORD = "Anacesar99";
     private static final String CREDENTIALS = "?user="+USERNAME+"&password="+PASSWORD;
     private static final String DATABASE = "jdbc:mysql://localhost:3306/GestStocks";
     private static final String DB_INITIAL_URL = "jdbc:mysql://localhost:3306";

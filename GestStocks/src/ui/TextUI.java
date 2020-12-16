@@ -16,7 +16,7 @@ public class TextUI {
      */
     public TextUI() {
 
-        this.model = new GestStocksFacade();
+        this.model = new GestStocksFacade(false, false);
         scin = new Scanner(System.in);
     }
 
