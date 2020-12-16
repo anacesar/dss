@@ -93,8 +93,7 @@ public class GestStocksFacade implements IGestStocks{
 
          */
 
-        /* simulacao de uma palete a chegar ao armazem */
-
+        /* simulacao de uma palete a chegar ao armazem
         this.robots.put("", new Robot("r3", 0, 8));
         this.robots.put("", new Robot("r5", 0, 10));
 
@@ -105,6 +104,10 @@ public class GestStocksFacade implements IGestStocks{
 
 
         transportarPalete(codPalete);
+        */
+
+
+
 
     }
 
@@ -147,7 +150,6 @@ public class GestStocksFacade implements IGestStocks{
                 robot= r;
             }
         }
-        System.out.println(robot.getIdRobot());
         return robot;
     }
 
@@ -198,6 +200,15 @@ public class GestStocksFacade implements IGestStocks{
         return distancia;
     }
 
+    public int getPrateleiraLivre(){
+        int nodo=-1;
+        for (int i=1 ; i<11 ; i++) if (!getMapa(i).isOcupado()) {
+            nodo = i;
+            break;
+        }
+        return nodo;
+    }
+
     @Override
     public void transportarPalete(String codPalete) {
         Palete palete = this.paletes.get(codPalete);
@@ -206,7 +217,7 @@ public class GestStocksFacade implements IGestStocks{
 
         System.out.println(robot.getIdRobot());
 
-        int destino = 9;
+        int destino = getPrateleiraLivre(); //e se não houver prateleiras livres?
 
         forneceRotas(robot, palete.getCodPalete(), palete.getLocalizacao(), destino);
 
@@ -227,7 +238,7 @@ public class GestStocksFacade implements IGestStocks{
             paleteRecolhida(robot, palete.getLocalizacao());
             System.out.println("in transport(recolha): " +robot.toString());
             Thread.sleep((long) time_paleteDestino); //simulacao de palete -> destino
-            paleteEntregue(robot);
+            paleteEntregue(robot,destino);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
@@ -236,19 +247,27 @@ public class GestStocksFacade implements IGestStocks{
     @Override
     public void paleteRecolhida(Robot robot, int locPalete) {
         robot.setLocalizacao(locPalete);
+        getMapa(locPalete).setOcupado(false); //localização livre
+    }
+
+
+    @Override
+    public void paleteEntregue(Robot robot,int locDestino) {
+        robot.setLocalizacao(locDestino);
+        getMapa(locDestino).setOcupado(true); //prateleira ocupada
+        this.transporte.remove(robot.getCodPalete()); //tirar a palete do Estado: em transporte
+
     }
 
     @Override
-    public void paleteEntregue(Robot robot) {
-
-    }
-
-    @Override
-    public void updateLocalizacao(Robot robot) {
+    public void updateLocalizacao(Robot robot, int locDestino) {
         //update na base de dados
-        //estado do robot a 0 , localizacao final e localizacao da palete
-    }
+        this.paletes.get(robot.getCodPalete()).setLocalizacao(locDestino); // atualizar localização palete
+        robot.setEstado(0); // robot livre
+        robot.setLocalizacao(locDestino); // robot na localização final
+        robot.clearDataTransporte(); // limpa percurso e codPalete a entregar
 
+    }
 
 
 }

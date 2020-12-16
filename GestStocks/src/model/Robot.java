@@ -70,6 +70,12 @@ public class Robot {
         return percurso;
     }
 
+    public void clearDataTransporte(){
+        this.robotPalete=new ArrayList<>();
+        this.paleteDestino=new ArrayList<>();
+        this.codPalete=null;
+    }
+
     @Override
     public String toString() {
         return "Robot{" +

@@ -17,9 +17,9 @@ public interface IGestStocks {
 
     void paleteRecolhida(Robot robot, int locPalete);
 
-    void paleteEntregue(Robot robot);
+    void paleteEntregue(Robot robot,int locDestino) ;
 
-    void updateLocalizacao(Robot robot);
+    void updateLocalizacao(Robot robot, int locDestino);
 
 
 }

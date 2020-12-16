@@ -50,6 +50,15 @@ public class Localizacao {
                 Math.pow(this.y - l.getY(), 2));
     }
 
+    @Override
+    public String toString() {
+        return "Localizacao{" +
+                "x=" + x +
+                ", y=" + y +
+                ", ocupado=" + ocupado +
+                '}';
+    }
+
     /*
     public boolean[] getNiveis() {
         return niveis;

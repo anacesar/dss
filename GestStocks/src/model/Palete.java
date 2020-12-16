@@ -16,6 +16,10 @@ public class Palete {
 
 
     public int getLocalizacao() {
-        return localizacao;
+        return this.localizacao;
+    }
+
+    public void setLocalizacao(int localizacao) {
+        this.localizacao = localizacao;
     }
 }
