@@ -111,7 +111,6 @@ public class GestStocksFacade implements IGestStocks{
             e.printStackTrace();
         }
 
-
     }
 
 
@@ -281,4 +280,18 @@ public class GestStocksFacade implements IGestStocks{
         this.mapa.put(palete.getLocalizacao(), locDestino);
     }
 
-}
+    public void adicionaUtilizador(Utilizador u) { this.users.put(u.getUsername(), u);}
+    public boolean existeUtilizador(String username){return this.users.containsKey(username);}
+    public boolean validaUser(String username,String pass){
+        return this.users.get(username).getPassword().equals(pass);
+    }
+
+    public boolean haUsers() {
+        return !this.users.isEmpty();
+    }
+    public boolean haPaletes(){return !this.paletes.isEmpty();}
+
+    public boolean existePalete(String codPalete){
+        return this.paletes.containsKey(codPalete);
+    }
+

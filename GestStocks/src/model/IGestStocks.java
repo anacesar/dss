@@ -23,5 +23,16 @@ public interface IGestStocks {
 
     void updateLocalizacao(Robot robot, Palete palete, Localizacao locDestino);
 
+    void adicionaUtilizador(Utilizador u);
+
+    boolean existeUtilizador(String username);
+
+    boolean validaUser(String username,String pass);
+
+    boolean haUsers();
+
+    boolean haPaletes();
+
+    boolean existePalete(String codPalete);
 
 }
