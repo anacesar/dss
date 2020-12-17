@@ -33,6 +33,12 @@ public interface IGestStocks {
 
     boolean haPaletes();
 
+    boolean haRobots();
+
     boolean existePalete(String codPalete);
+
+    void addThings();
+
+    List<String> paletesKeySet();
 
 }

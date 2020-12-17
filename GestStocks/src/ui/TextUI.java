@@ -4,13 +4,12 @@ import model.GestStocksFacade;
 import model.IGestStocks;
 import model.Utilizador;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TextUI {
     private IGestStocks model;
     private Scanner scin;
+    private ShowMapa showMapa;
 
     /**
      * Construtor.
@@ -18,22 +17,19 @@ public class TextUI {
      * Cria os menus e a camada de negócio.
      */
     public TextUI() {
-
-        this.model = new GestStocksFacade(false, false);
-
-        this.model = new GestStocksFacade(false,false);
-
+        this.model = new GestStocksFacade(false, true);
+        //this.model.addThings();
         scin = new Scanner(System.in);
+        showMapa = new ShowMapa();
     }
-
-
 
     /**
      * Executa o menu principal e invoca o método correspondente à opção seleccionada.
      */
     public void run() {
         System.out.println("Bem vindo ao Sistema de Gestão de Stocks!");
-        this.menuInicial();
+        this.menuUtilizador();
+        //this.menuInicial();
         System.out.println("Até breve...");
     }
 
@@ -66,9 +62,9 @@ public class TextUI {
                 System.out.println("Password: ");
                 String pass = scin.nextLine();
                 this.model.adicionaUtilizador(new Utilizador(username, email, pass));
-                System.out.println("Gestor adicionado");
+                System.out.println("Utilizador adicionado");
             }else
-                System.out.println("Esse usarname já existe!");
+                System.out.println("Esse username já existe!");
 
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
@@ -97,14 +93,24 @@ public class TextUI {
 
     private void menuUtilizador() {
         Menu menu = new Menu(new String[]{
-                "Consultar localizações"
+                "Consultar localizações",
+                "Ver paletes no armazém",
+                "Ver robots no armazém",
+                "Ver mapa"
         });
 
         // Registar pré-condições das transições´
         menu.setPreCondition(1, ()->this.model.haPaletes());
+        menu.setPreCondition(2, ()->this.model.haPaletes());
+        menu.setPreCondition(3, ()->this.model.haRobots());
+
+
 
         // Registar os handlers
         menu.setHandler(1, ()->consultaLocalizacoes());
+        menu.setHandler(2, ()->verPaletesMapa());
+        menu.setHandler(3, ()->verRobotsMapa());
+        menu.setHandler(4, ()->verMapa());
 
         menu.run();
     }
@@ -115,7 +121,7 @@ public class TextUI {
             List<String> locInvalidas = new ArrayList<>();
 
             System.out.println("Quantas localizações pretende consultar: ");
-            Integer num = Integer.valueOf(scin.nextLine());
+            int num = Integer.parseInt(scin.nextLine());
             System.out.println("Introduza os códigos das paletes:");
 
             for(int i=0; i<num; i++ ) {
@@ -124,11 +130,39 @@ public class TextUI {
                 else locValidas.add(cod);
             }
             if (!locInvalidas.isEmpty()) System.out.println("\nOs códigos seguintes são inválidos: " + locInvalidas);
-            if (!locValidas.isEmpty()) this.model.localizacoes(locValidas).forEach((k, v)-> System.out.println("\nPalete: " + k + "\nLocalização : " +v));
+            if (!locValidas.isEmpty()) this.model.localizacoes(locValidas).forEach((k, v)-> {
+                System.out.print("\nPalete: " + k);
+                if(v == 0) System.out.println("\nLocalização : Zona de Receção");
+                else System.out.println("\nLocalização : Prateleira " + v);
+            });
         }catch(NullPointerException e){
             System.out.println(e.getMessage());
         }
     }
 
+    private void verPaletesMapa(){
+        List<String> paletes_rececao = new ArrayList<>();
+        Map<Integer, String> res = new HashMap<>();
+
+        Map<String, Integer> locs = this.model.localizacoes(this.model.paletesKeySet());
+
+        locs.entrySet().stream().forEach((map -> {
+            if(map.getValue() == 0) paletes_rececao.add(map.getKey());
+            else res.put(map.getValue(), map.getKey());
+        }));
+
+        this.showMapa.showPaletesMapa(res);
+
+        System.out.println("\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
+        try{
+            if(Integer.parseInt(scin.nextLine()) ==1) this.showMapa.verZonaRececao(paletes_rececao);
+        }catch(NumberFormatException e){}
+    }
+
+    private void verRobotsMapa(){
+
+    }
+
+    private void verMapa(){ this.showMapa.showMapa();}
 
 }

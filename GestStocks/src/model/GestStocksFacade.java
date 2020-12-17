@@ -5,8 +5,9 @@ import data.*;
 import exceptions.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class GestStocksFacade implements IGestStocks{
+public class GestStocksFacade implements IGestStocks {
     private Map<String, Utilizador> users;
     private Map<String, Robot> robots;
     private Map<String, Palete> paletes;
@@ -32,11 +33,11 @@ public class GestStocksFacade implements IGestStocks{
     }
 
 
-    public void clearDB(){
+    public void clearDB() {
         UtilizadorDAO.clearUserTable();
     }
 
-    public void createMapa(){
+    public void createMapa() {
         this.mapa.put(0, new Localizacao(2, 0)); //zona de rececao
 
         this.mapa.put(1, new Localizacao(5, 0, false)); //prateleira 1 Corredor 1
@@ -58,10 +59,12 @@ public class GestStocksFacade implements IGestStocks{
         //this.mapa.put(13, new Localizacao(10, 2, false)); //zona de entregas
     }
 
-    public Localizacao getMapa(int idNodo){return this.mapa.get(idNodo);}
+    public Localizacao getMapa(int idNodo) {
+        return this.mapa.get(idNodo);
+    }
 
 
-    public void addThings(){
+    public void addThings() {
         /*
         this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
         this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
@@ -86,7 +89,9 @@ public class GestStocksFacade implements IGestStocks{
         //registarPalete("34567");
 
         this.paletes.put("", new Palete("45", 5));
-        this.paletes.put("", new Palete("3", 12));
+        this.paletes.put("", new Palete("3", 9));
+        this.paletes.put("", new Palete("21", 4));
+        this.paletes.put("", new Palete("78", 2));
         /*
 
         List<String> loc = new ArrayList<String>();
@@ -100,29 +105,29 @@ public class GestStocksFacade implements IGestStocks{
         this.robots.put("", new Robot("r5", 0, 10));
 
         registarPalete("8239");
+        registarPalete("123");
 
         //descobrir palete na zona de rececao
         String codPalete = this.queue.poll();
 
-
+/*
         try {
             transportarPalete(codPalete);
         } catch(paleteException | robotException | prateleiraException e) {
             e.printStackTrace();
-        }
-
+        }*/
     }
 
 
-    public void registarPalete(String codPalete){
+    public void registarPalete(String codPalete) {
         // add de uma palete registada na zona de receção (nodo 0 do mapa)
-        this.paletes.put("", new Palete (codPalete,0));
+        this.paletes.put("", new Palete(codPalete, 0));
         this.queue.add(codPalete);
     }
 
-    public Map<String, Integer> localizacoes(List<String> paletes){
+    public Map<String, Integer> localizacoes(List<String> paletes) {
         Map<String, Integer> localizacoes = new HashMap<>();
-        for(String codPalete : paletes){
+        for(String codPalete : paletes) {
             Palete p = this.paletes.get(codPalete);
             if(p == null) localizacoes.put(codPalete, -1); //palete nao esta no armazem
             else localizacoes.put(codPalete, p.getLocalizacao());
@@ -131,9 +136,9 @@ public class GestStocksFacade implements IGestStocks{
     }
 
 
-    private double distanciaPalete(int loc, int destino){
+    private double distanciaPalete(int loc, int destino) {
         double distancia = 0;
-        if(loc < 6 && destino >=6 || loc>=6 && destino<6){ //nao estao no mesmo corredor
+        if(loc < 6 && destino >= 6 || loc >= 6 && destino < 6) { //nao estao no mesmo corredor
             distancia += 5;
         }
         distancia += getMapa(loc).distancia(getMapa(destino));
@@ -141,27 +146,27 @@ public class GestStocksFacade implements IGestStocks{
         return distancia;
     }
 
-    public Robot getRobot(int locPalete){
-        double d=1000;
+    public Robot getRobot(int locPalete) {
+        double d = 1000;
         Robot robot = null;
-        for(Robot r: this.robots.values()){
-            double dc=distanciaPalete(r.getLocalizacao(), locPalete);
+        for(Robot r : this.robots.values()) {
+            double dc = distanciaPalete(r.getLocalizacao(), locPalete);
             System.out.println("robot: " + r.getIdRobot() + "   d= " + dc);
-            if(dc<d) {
+            if(dc < d) {
                 d = dc;
-                robot= r;
+                robot = r;
             }
         }
         return robot;
     }
 
-    public List<Integer> checkLocalizacao(int loc, int destino){
+    public List<Integer> checkLocalizacao(int loc, int destino) {
         List<Integer> percurso = new ArrayList<>();
-        if(loc < 6 && destino >=6 || loc>=6 && destino<6){ //nao estao no mesmo corredor
-            if(loc < 6){//corredor 1 -- canto 1 --> canto 2 --> destino
-               percurso.add(11);
-               percurso.add(12);
-            }else{//corredor 2 -- canto 2 --> canto 1 --> destino
+        if(loc < 6 && destino >= 6 || loc >= 6 && destino < 6) { //nao estao no mesmo corredor
+            if(loc < 6) {//corredor 1 -- canto 1 --> canto 2 --> destino
+                percurso.add(11);
+                percurso.add(12);
+            } else {//corredor 2 -- canto 2 --> canto 1 --> destino
                 percurso.add(12);
                 percurso.add(11);
             }
@@ -183,29 +188,29 @@ public class GestStocksFacade implements IGestStocks{
         this.robots.put(robot.getIdRobot(), robot); //atualiza o estado do robot
     }
 
-    private double distanciaPercurso(Robot robot, boolean toPalete){
-        Localizacao origem,destino;
+    private double distanciaPercurso(Robot robot, boolean toPalete) {
+        Localizacao origem, destino;
         double distancia = 0;
         List<Integer> percurso;
 
-        if(toPalete){/*transporte robot -> palete*/
+        if(toPalete) {/*transporte robot -> palete*/
             percurso = robot.getRobotPalete();
-        }else{/*transporte palete(robot na loc da palete) -> destino*/
+        } else {/*transporte palete(robot na loc da palete) -> destino*/
             percurso = robot.getPaleteDestino();
         }
 
         int size = percurso.size();
-        origem=getMapa(robot.getLocalizacao()); //localizacao de partida e sempre a localizacao do robot
-        destino = getMapa(percurso.get(size-1));
+        origem = getMapa(robot.getLocalizacao()); //localizacao de partida e sempre a localizacao do robot
+        destino = getMapa(percurso.get(size - 1));
 
-        if (size>1) distancia += 5; //e necessario passar nos cantos do mapa
+        if(size > 1) distancia += 5; //e necessario passar nos cantos do mapa
         distancia += origem.distancia(destino);
 
         return distancia;
     }
 
-    public int getPrateleiraLivre(){
-        for(int i= 1; i<11 ; i++)
+    public int getPrateleiraLivre() {
+        for(int i = 1; i < 11; i++)
             if(!getMapa(i).isOcupado()) return i;
 
         return -1;//nao ha prateleiras livres
@@ -217,13 +222,13 @@ public class GestStocksFacade implements IGestStocks{
         if(palete == null) throw new paleteException();
 
         Robot robot = getRobot(palete.getLocalizacao()); //verificar robot != null
-        if(robot==null)//nao existe robot disponivel para o transporte
+        if(robot == null)//nao existe robot disponivel para o transporte
             throw new robotException("Não existe nenhum robot disponível para transporte");
 
         System.out.println(robot.getIdRobot());
 
         int destino = getPrateleiraLivre(); //e se não houver prateleiras livres?
-        if(destino==-1) throw new prateleiraException();
+        if(destino == -1) throw new prateleiraException();
         this.transporte.remove(robot.getCodPalete()); //tirar a palete do Estado: em transporte
 
         forneceRotas(robot, palete.getCodPalete(), palete.getLocalizacao(), destino);
@@ -237,15 +242,16 @@ public class GestStocksFacade implements IGestStocks{
         //percurso --> ver o nodo da palete e simular tempo de deslocacao
 
         double time_robotPalete = distanciaPercurso(robot, true) / 0.003; //velocidade media 10km/h
-        double time_paleteDestino = distanciaPercurso(robot, false) / 0.003; ;
+        double time_paleteDestino = distanciaPercurso(robot, false) / 0.003;
+        ;
 
         try {
             System.out.println("before transport: " + robot.toString());
-            Thread.sleep((long)time_robotPalete); //simulacao robot -> palete
+            Thread.sleep((long) time_robotPalete); //simulacao robot -> palete
             paleteRecolhida(robot, palete.getLocalizacao());
-            System.out.println("in transport(recolha): " +robot.toString());
+            System.out.println("in transport(recolha): " + robot.toString());
             Thread.sleep((long) time_paleteDestino); //simulacao de palete -> destino
-            paleteEntregue(robot,palete, destino);
+            paleteEntregue(robot, palete, destino);
             System.out.println("after transport: " + robot.toString());
         } catch(InterruptedException e) {
             e.printStackTrace();
@@ -255,8 +261,9 @@ public class GestStocksFacade implements IGestStocks{
     @Override
     public void paleteRecolhida(Robot robot, int locPalete) {
         robot.setLocalizacao(locPalete);
-        if(locPalete!=1){
-            Localizacao locP = getMapa(locPalete); locP.setOcupado(false);//localização livre
+        if(locPalete != 1) {
+            Localizacao locP = getMapa(locPalete);
+            locP.setOcupado(false);//localização livre
             this.mapa.put(locPalete, locP);
         }
     }
@@ -268,30 +275,56 @@ public class GestStocksFacade implements IGestStocks{
         robot.setEstado(0);// robot livre
         robot.clearDataTransporte(); // limpa percurso e codPalete a entregar
         palete.setLocalizacao(locDestino);//atualiza localizacao da palete para destino
-        Localizacao l = getMapa(locDestino); l.setOcupado(true);//prateleira ocupada
+        Localizacao l = getMapa(locDestino);
+        l.setOcupado(true);//prateleira ocupada
         updateLocalizacao(robot, palete, l);
     }
 
     @Override
-    public void updateLocalizacao(Robot robot, Palete palete,  Localizacao locDestino) {
+    public void updateLocalizacao(Robot robot, Palete palete, Localizacao locDestino) {
         //update na base de dados
         this.robots.put("", robot); //atualizar informacoes do robot na bd
         this.paletes.put(robot.getCodPalete(), palete); // atualizar localização palete
         this.mapa.put(palete.getLocalizacao(), locDestino);
     }
 
-    public void adicionaUtilizador(Utilizador u) { this.users.put(u.getUsername(), u);}
-    public boolean existeUtilizador(String username){return this.users.containsKey(username);}
-    public boolean validaUser(String username,String pass){
+    public void adicionaUtilizador(Utilizador u) {
+        this.users.put(u.getUsername(), u);
+    }
+
+    public boolean existeUtilizador(String username) {
+        return this.users.containsKey(username);
+    }
+
+    public boolean validaUser(String username, String pass) {
         return this.users.get(username).getPassword().equals(pass);
     }
 
-    public boolean haUsers() {
+    public boolean haUsers(){
         return !this.users.isEmpty();
     }
-    public boolean haPaletes(){return !this.paletes.isEmpty();}
 
-    public boolean existePalete(String codPalete){
+    public boolean haPaletes(){
+        return !this.paletes.isEmpty();
+    }
+
+    public boolean haRobots(){
+        return !this.robots.isEmpty();
+    }
+
+    public boolean existePalete(String codPalete) {
         return this.paletes.containsKey(codPalete);
     }
+
+    public Map<Integer, String> paletes_mapa(){
+        Map<Integer, String> paletes = new HashMap<>();
+        //percorrer as paletes e ver as localizacoes
+        this.paletes.values().forEach(palete -> paletes.put(palete.getLocalizacao(), palete.getCodPalete()));
+        return paletes;
+    }
+
+    public List<String> paletesKeySet(){
+        return new ArrayList<>(this.paletes.keySet());
+    }
+}
 
