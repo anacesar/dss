@@ -14,12 +14,7 @@ public class GestStocksFacade implements IGestStocks {
     private Map<String, Robot> robots;
     private Map<String, Palete> paletes;
     private Map<Integer, Localizacao> mapa;
-    //private List<Requisicao> requisicoes;
-
-    //queue of paletes to read
-    Queue<String> queue;
-    //queue of paletes ready to transport
-    List<String> transporte;
+    private Queue <String> queue;  //queue of paletes to read
 
     private Lock lock = new ReentrantLock();
     private Condition queueEmpty = lock.newCondition();
@@ -34,13 +29,11 @@ public class GestStocksFacade implements IGestStocks {
         this.paletes = PaleteDAO.getInstance();
         if(newmap) createMapa();
         this.queue = new ArrayDeque<>();
-        this.transporte = new ArrayList<>();
         if(cleanData) this.clearDB();
 
         /* thread responsável por atribuir transporte */
         new Thread(() -> {
             while(true) {
-                System.out.println("trying to do transport...");
                 String codPalete = null;
                 try {
                     lock.lock();
@@ -70,14 +63,21 @@ public class GestStocksFacade implements IGestStocks {
     }
 
 
+    /**
+     * Método que limpa as tabelas dos Utilizadores, Robots e Paletes
+     */
     public void clearDB() {
         UtilizadorDAO.clearUserTable();
         RobotDAO.clearRobotTable();
         PaleteDAO.clearPaleteTable();
     }
 
+    /**
+     * Método que insere no Map<Integer, Localizacao> mapa
+     * os nodos do mapa e as suas respetivas coordenadas
+     */
     public void createMapa() {
-        this.mapa.put(0, new Localizacao(2, 0)); //zona de rececao
+        this.mapa.put(0, new Localizacao(2, 0)); // Zona de Receção
 
         this.mapa.put(1, new Localizacao(5, 0, false)); //prateleira 1 Corredor 1
         this.mapa.put(2, new Localizacao(6, 0, false)); //prateleira 2 Corredor 1
@@ -85,28 +85,44 @@ public class GestStocksFacade implements IGestStocks {
         this.mapa.put(4, new Localizacao(8, 0, false)); //prateleira 4 Corredor 1
         this.mapa.put(5, new Localizacao(9, 0, false)); //prateleira 5 Corredor 1
 
-        this.mapa.put(6, new Localizacao(5, 5, false)); //prateleira 6 Corredor 2
-        this.mapa.put(7, new Localizacao(6, 5, false)); //prateleira 7 Corredor 2
-        this.mapa.put(8, new Localizacao(7, 5, false)); //prateleira 8 Corredor 2
-        this.mapa.put(9, new Localizacao(8, 5, false)); //prateleira 9 Corredor 2
-        this.mapa.put(10, new Localizacao(9, 5, false)); //prateleira 10 Corredor 2
+        this.mapa.put(6, new Localizacao(5, 5, false)); //prateleira 6  Corredor 2
+        this.mapa.put(7, new Localizacao(6, 5, false)); //prateleira 7  Corredor 2
+        this.mapa.put(8, new Localizacao(7, 5, false)); //prateleira 8  Corredor 2
+        this.mapa.put(9, new Localizacao(8, 5, false)); //prateleira 9  Corredor 2
+        this.mapa.put(10, new Localizacao(9, 5, false));//prateleira 10 Corredor 2
 
-        // adicionar cantos
+        /* Cantos para passar de um corredor para o outro */
         this.mapa.put(11, new Localizacao(3, 0, false)); //Canto 1
         this.mapa.put(12, new Localizacao(3, 5, false)); //Canto 2
 
-        //this.mapa.put(13, new Localizacao(10, 2, false)); //zona de entregas
     }
 
+    /**
+     * Método que devolve a Localização consoante o id do nodo dado
+     *
+     * @param idNodo do mapa
+     * @return Localização
+     */
     public Localizacao getMapa(int idNodo) {
         return this.mapa.get(idNodo);
     }
 
+    /**
+     *
+     * Método que povoa o nosso sistema com robots, paletes e gestores
+     *
+     * De modo a conseguirmos testar se o processo de transporte de diversas paletes com diversos robots
+     * Adicionamos também alguns registaPalete(codPalete)
+     * 
+     */
     public void addThings() {
+
+        this.users.put("", new Utilizador("u1", "u1@email.com", "u1"));
+
         /*
-        this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
-        this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
-        this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
+        this.users.put("", new Utilizador("u2", "u2@email.com", "u2"));
+        this.users.put("", new Utilizador("u3", "u2@email.com", "u3"));
+        this.users.put("", new Utilizador("u4", "u2@email.com", "u4"));
         */
 
         this.robots.put("", new Robot("r1", 0, 6));
@@ -121,14 +137,14 @@ public class GestStocksFacade implements IGestStocks {
         this.paletes.put("", new Palete("p4", 4));
         this.paletes.put("", new Palete("p5", 1));
 
-        /* testar armazenamento de uma palete */
+        /* testar armazenamento de uma palete
         registarPalete("p6");
         registarPalete("p7");
         registarPalete("p8");
         registarPalete("p9");
         registarPalete("p10");
         registarPalete("p11");
-
+        */
     }
 
 
@@ -231,7 +247,7 @@ public class GestStocksFacade implements IGestStocks {
         for(int i = 1; i < 11; i++)
             if(!getMapa(i).isOcupado()) return i;
 
-        return -1;//nao ha prateleiras livres
+        return -1;  //nao ha prateleiras livres
     }
 
     @Override
@@ -252,11 +268,8 @@ public class GestStocksFacade implements IGestStocks {
         l.setOcupado(true);//prateleira ocupada
         this.mapa.put(destino, l); //atualizar base de dados com prateleira ocupada
 
-        this.transporte.remove(robot.getCodPalete()); //tirar a palete da lista em transporte
 
         forneceRotas(robot, palete.getCodPalete(), palete.getLocalizacao(), destino);
-
-        this.transporte.add(codPalete);
 
         /* criar nova thread que simula o transporte dos robots - independente ao funcionamento do sistema */
         new Thread(() ->{

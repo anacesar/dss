@@ -28,12 +28,14 @@ public class ShowMapa {
     }
 
     public void showMapa(){
+        System.out.println("\n");
         firstPrint();
         secondPrint();
         lastPrint();
     }
 
     public void showPaletesMapa(Map<Integer, String> paletes){
+        System.out.println("\n");
         firstPrint();
         System.out.printf("\n%2s|%10s|%5s", " ", "[1]   ", " ");
         for(int i=ZONA_RECECAO+1; i<NR_PRATELEIRAS+1; i++) {
@@ -45,10 +47,13 @@ public class ShowMapa {
     }
 
     public void verZonaRececao(List<String> paletes_rececao){
-        System.out.println("Zona de receção");
-        System.out.printf("%3s__________%7s", " ", " ");
-        paletes_rececao.forEach(palete -> System.out.printf("\n%2s|%6s%4s|%3s", " ", palete, " ", " "));
-        System.out.printf("\n%3s__________%7s\n", " ", " ");
+        System.out.println("\nZona de receção");
+        if(paletes_rececao.isEmpty()) System.out.println("\nNão há paletes a apresentar!");
+        else {
+            System.out.printf("%3s__________%7s", " ", " ");
+            paletes_rececao.forEach(palete -> System.out.printf("\n%2s|%6s%4s|%3s", " ", palete, " ", " "));
+            System.out.printf("\n%3s__________%7s\n", " ", " ");
+        }
     }
 
 }

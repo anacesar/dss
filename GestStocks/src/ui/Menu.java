@@ -82,6 +82,7 @@ public class Menu {
             System.out.println(this.disponivel.get(i).validate()?this.opcoes.get(i):"---");
         }
         System.out.println("0 - Sair");
+
     }
 
     /** Ler uma opção válida */

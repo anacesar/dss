@@ -27,9 +27,8 @@ public class TextUI {
      * Executa o menu principal e invoca o método correspondente à opção seleccionada.
      */
     public void run() {
-        System.out.println("Bem vindo ao Sistema de Gestão de Stocks!");
-        this.menuUtilizador();
-        //this.menuInicial();
+        System.out.println("\nBem vindo ao Sistema de Gestão de Stocks!");
+        this.menuInicial();
         System.out.println("Até breve...");
     }
 
@@ -52,6 +51,10 @@ public class TextUI {
         menu.run();
     }
 
+    /**
+     * Menu Principal - Opção 1
+     * Estado - Registo de um utilizador, neste caso um gestor
+     */
     private void registo(){
         try{
             System.out.println("Username: ");
@@ -71,8 +74,11 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Principal - Opção 2
+     * Estado - Login de um utilizador, neste caso um gestor
+     */
     private void login(){
-        boolean sucesso=true;
         try {
             System.out.println("Username: ");
             String username = scin.nextLine();
@@ -82,7 +88,6 @@ public class TextUI {
                 if(!this.model.validaUser(username,pass)) System.out.println("Username e Password não coincide!");
                 else menuUtilizador();
             }else {
-                sucesso=false;
                 System.out.println("Não se encontra registado no sistema! \nPor favor faça o registo ou tente novamente.");
             }
 
@@ -91,6 +96,11 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Utilizador
+     * Entra aqui após um login efetuado com sucesso
+     * Estado - Login de um utilizador, neste caso um gestor
+     */
     private void menuUtilizador() {
         Menu menu = new Menu(new String[]{
                 "Consultar localizações",
@@ -115,6 +125,10 @@ public class TextUI {
         menu.run();
     }
 
+    /**
+     * Menu Utilizador - Opção 1
+     * Estado - Consultar localizações
+     */
     private void consultaLocalizacoes(){
         try {
             List<String> locValidas = new ArrayList<>();
@@ -140,6 +154,10 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Utilizador - Opção 2
+     * Estado - Ver paletes no armazém
+     */
     private void verPaletesMapa(){
         List<String> paletes_rececao = new ArrayList<>();
         Map<Integer, String> res = new HashMap<>();
@@ -153,16 +171,24 @@ public class TextUI {
 
         this.showMapa.showPaletesMapa(res);
 
-        System.out.println("\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
+        System.out.println("\n\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
         try{
             if(Integer.parseInt(scin.nextLine()) ==1) this.showMapa.verZonaRececao(paletes_rececao);
         }catch(NumberFormatException e){}
     }
 
+    /**
+     * Menu Utilizador - Opção 3
+     * Estado - Ver robots no armazém
+     */
     private void verRobotsMapa(){
 
     }
 
+    /**
+     * Menu Utilizador - Opção 4
+     * Estado - Ver mapa
+     */
     private void verMapa(){ this.showMapa.showMapa();}
 
 }
