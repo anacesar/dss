@@ -41,20 +41,12 @@ public class PaleteDAO implements Map<String, Palete> {
         return PaleteDAO.singleton;
     }
 
-    /** Limpa tabela de paletes. */
-    public void clear () {
-        try (Connection conn = DAOconnection.getConnection()) {
-            Statement stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM Palete");
-        }
-        catch (Exception e) {throw new NullPointerException(e.getMessage());}
-    }
 
-    /** Apaga tabela de paletes */
+    /** Limpa tabela de paletes */
     public static void clearPaleteTable(){
         try (Connection conn = DAOconnection.getConnection()) {
             Statement stm = conn.createStatement();
-            stm.executeUpdate("DROP TABLE Palete");
+            stm.executeUpdate("DELETE FROM Palete");
         }
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
@@ -161,6 +153,11 @@ public class PaleteDAO implements Map<String, Palete> {
 
     @Override
     public void putAll(Map<? extends String, ? extends Palete> m) {
+
+    }
+
+    @Override
+    public void clear() {
 
     }
 

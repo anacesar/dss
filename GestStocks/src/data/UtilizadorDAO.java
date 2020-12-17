@@ -41,20 +41,12 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         return UtilizadorDAO.singleton;
     }
 
-    /** Limpa tabela de utilizadores. */
-    public void clear () {
-        try (Connection conn = DAOconnection.getConnection()) {
-            Statement stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM Utilizador");
-        }
-        catch (Exception e) {throw new NullPointerException(e.getMessage());}
-    }
 
-    /** Apaga tabela de utilizadores */
+    /** Limpa tabela de utilizadores */
     public static void clearUserTable(){
         try (Connection conn = DAOconnection.getConnection()) {
             Statement stm = conn.createStatement();
-            stm.executeUpdate("DROP TABLE Utilizador");
+            stm.executeUpdate("DELETE FROM Utilizador");
         }
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
@@ -195,6 +187,11 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     public void putAll(Map<? extends String, ? extends Utilizador> utilizadores) {
         for(Utilizador u : utilizadores.values())
             this.put(u.getUsername(), u);
+    }
+
+    @Override
+    public void clear() {
+
     }
 
     @Override

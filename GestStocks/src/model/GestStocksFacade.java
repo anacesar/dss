@@ -5,7 +5,9 @@ import data.*;
 import exceptions.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GestStocksFacade implements IGestStocks {
     private Map<String, Utilizador> users;
@@ -19,6 +21,10 @@ public class GestStocksFacade implements IGestStocks {
     //queue of paletes ready to transport
     List<String> transporte;
 
+    private Lock lock = new ReentrantLock();
+    private Condition queueEmpty = lock.newCondition();
+    private Condition noRobots = lock.newCondition();
+    private Condition noPrateleiras = lock.newCondition();
 
     public GestStocksFacade(boolean cleanData, boolean newmap) {
         DAOconnection.createDB();
@@ -30,11 +36,44 @@ public class GestStocksFacade implements IGestStocks {
         this.queue = new ArrayDeque<>();
         this.transporte = new ArrayList<>();
         if(cleanData) this.clearDB();
+
+        /* thread responsável por atribuir transporte */
+        new Thread(() -> {
+            while(true) {
+                System.out.println("trying to do transport...");
+                String codPalete = null;
+                try {
+                    lock.lock();
+                    while(this.queue.isEmpty()) this.queueEmpty.await();
+                    //invoca necessidade de transporte
+                    codPalete = queue.poll();
+                    transportarPalete(codPalete);
+                    System.out.println("transport ...");
+                }catch(paleteException | InterruptedException e) {
+                    System.out.println("transport " +codPalete + " couldnt happen...");
+                }catch(robotException robot){
+                    this.queue.add(codPalete);
+                    try {
+                        this.noRobots.await();
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }catch(prateleiraException prateleira){
+                    this.queue.add(codPalete);
+                    try {
+                        this.noPrateleiras.await();
+                    }catch(InterruptedException e) {
+                    }
+                }finally {lock.unlock();}
+            }
+        }).start();
     }
 
 
     public void clearDB() {
         UtilizadorDAO.clearUserTable();
+        RobotDAO.clearRobotTable();
+        PaleteDAO.clearPaleteTable();
     }
 
     public void createMapa() {
@@ -63,59 +102,33 @@ public class GestStocksFacade implements IGestStocks {
         return this.mapa.get(idNodo);
     }
 
-
     public void addThings() {
         /*
         this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
         this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
         this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
+        */
 
-
-        //System.out.println(this.users.get("shdj").getPassword()); feito - falta apanhar as excecoes
-        //System.out.println(this.users.size());
-
-        this.paletes.put("", new Palete("1234", 2));
         this.robots.put("", new Robot("r1", 0, 6));
-
         this.robots.put("", new Robot("r2", 0, 3));
         this.robots.put("", new Robot("r3", 0, 5));
-        this.robots.put("", new Robot("r4", 0, 12));
-        this.robots.put("", new Robot("r5", 1, 6));*
+        this.robots.put("", new Robot("r4", 0, 10));
+        this.robots.put("", new Robot("r5", 0, 6));
 
-        //System.out.println(getRobot(getMapa(8)).getIdRobot());
+        this.paletes.put("", new Palete("p1", 2));
+        this.paletes.put("", new Palete("p2", 3));
+        this.paletes.put("", new Palete("p3", 9));
+        this.paletes.put("", new Palete("p4", 4));
+        this.paletes.put("", new Palete("p5", 1));
 
+        /* testar armazenamento de uma palete */
+        registarPalete("p6");
+        registarPalete("p7");
+        registarPalete("p8");
+        registarPalete("p9");
+        registarPalete("p10");
+        registarPalete("p11");
 
-         */
-        //registarPalete("34567");
-
-        this.paletes.put("", new Palete("45", 5));
-        this.paletes.put("", new Palete("3", 9));
-        this.paletes.put("", new Palete("21", 4));
-        this.paletes.put("", new Palete("78", 2));
-        /*
-
-        List<String> loc = new ArrayList<String>();
-        loc.add("1234"); loc.add("34567");loc.add("34543");loc.add("3");
-
-        localizacoes(loc).forEach((k, v)-> System.out.println("palete: " + k + "\nlocalizacao : " +v));
-
-
-        /* simulacao de uma palete a chegar ao armazem*/
-        this.robots.put("", new Robot("r3", 0, 8));
-        this.robots.put("", new Robot("r5", 0, 10));
-
-        registarPalete("8239");
-        registarPalete("123");
-
-        //descobrir palete na zona de rececao
-        String codPalete = this.queue.poll();
-
-/*
-        try {
-            transportarPalete(codPalete);
-        } catch(paleteException | robotException | prateleiraException e) {
-            e.printStackTrace();
-        }*/
     }
 
 
@@ -123,6 +136,9 @@ public class GestStocksFacade implements IGestStocks {
         // add de uma palete registada na zona de receção (nodo 0 do mapa)
         this.paletes.put("", new Palete(codPalete, 0));
         this.queue.add(codPalete);
+        lock.lock();
+        this.queueEmpty.signal();
+        lock.unlock();
     }
 
     public Map<String, Integer> localizacoes(List<String> paletes) {
@@ -150,11 +166,13 @@ public class GestStocksFacade implements IGestStocks {
         double d = 1000;
         Robot robot = null;
         for(Robot r : this.robots.values()) {
-            double dc = distanciaPalete(r.getLocalizacao(), locPalete);
-            System.out.println("robot: " + r.getIdRobot() + "   d= " + dc);
-            if(dc < d) {
-                d = dc;
-                robot = r;
+            if(r.getEstado() == 0){ //robot esta livre
+                double dc = distanciaPalete(r.getLocalizacao(), locPalete);
+                System.out.println("robot: " + r.getIdRobot() + "   d= " + dc);
+                if(dc < d) {
+                    d = dc;
+                    robot = r;
+                }
             }
         }
         return robot;
@@ -229,33 +247,35 @@ public class GestStocksFacade implements IGestStocks {
 
         int destino = getPrateleiraLivre(); //e se não houver prateleiras livres?
         if(destino == -1) throw new prateleiraException();
-        this.transporte.remove(robot.getCodPalete()); //tirar a palete do Estado: em transporte
+
+        Localizacao l = getMapa(destino);
+        l.setOcupado(true);//prateleira ocupada
+        this.mapa.put(destino, l); //atualizar base de dados com prateleira ocupada
+
+        this.transporte.remove(robot.getCodPalete()); //tirar a palete da lista em transporte
 
         forneceRotas(robot, palete.getCodPalete(), palete.getLocalizacao(), destino);
 
         this.transporte.add(codPalete);
 
-        //robot esta ocupado, sabe qual o percurso e qual a palete a transportar
+        /* criar nova thread que simula o transporte dos robots - independente ao funcionamento do sistema */
+        new Thread(() ->{
+            double time_robotPalete = distanciaPercurso(robot, true) / 0.003; //velocidade media 10km/h
+            double time_paleteDestino = distanciaPercurso(robot, false) / 0.003;
 
-        //criar nova thread que vai efetuar o transporte
-        //worker da thread recebe o robot
-        //percurso --> ver o nodo da palete e simular tempo de deslocacao
+            try {
+                System.out.println("before transport: " + robot.toString());
+                Thread.sleep((long) time_robotPalete); //simulacao robot -> palete
+                paleteRecolhida(robot, palete.getLocalizacao());
+                System.out.println("in transport(recolha): " + robot.toString());
+                Thread.sleep((long) time_paleteDestino); //simulacao de palete -> destino
+                paleteEntregue(robot, palete, destino);
+                System.out.println("after transport: " + robot.toString());
 
-        double time_robotPalete = distanciaPercurso(robot, true) / 0.003; //velocidade media 10km/h
-        double time_paleteDestino = distanciaPercurso(robot, false) / 0.003;
-        ;
-
-        try {
-            System.out.println("before transport: " + robot.toString());
-            Thread.sleep((long) time_robotPalete); //simulacao robot -> palete
-            paleteRecolhida(robot, palete.getLocalizacao());
-            System.out.println("in transport(recolha): " + robot.toString());
-            Thread.sleep((long) time_paleteDestino); //simulacao de palete -> destino
-            paleteEntregue(robot, palete, destino);
-            System.out.println("after transport: " + robot.toString());
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
@@ -265,6 +285,11 @@ public class GestStocksFacade implements IGestStocks {
             Localizacao locP = getMapa(locPalete);
             locP.setOcupado(false);//localização livre
             this.mapa.put(locPalete, locP);
+            /*sinalizar que prateleira ficou livre -> caso houvesse requisicoes,
+             quando prateleira ficasse livre notifica pedidos de armazenamento pendentes por falta de espaco no armazem */
+            lock.lock();
+            this.noPrateleiras.signal();
+            lock.unlock();
         }
     }
 
@@ -275,17 +300,19 @@ public class GestStocksFacade implements IGestStocks {
         robot.setEstado(0);// robot livre
         robot.clearDataTransporte(); // limpa percurso e codPalete a entregar
         palete.setLocalizacao(locDestino);//atualiza localizacao da palete para destino
-        Localizacao l = getMapa(locDestino);
-        l.setOcupado(true);//prateleira ocupada
-        updateLocalizacao(robot, palete, l);
+        updateLocalizacao(robot, palete);
+        //sinalizar que robot ficou livre -> caso haja pedidos de tranporte pendentes por falta de robots livres
+        lock.lock();
+        this.noRobots.signal();
+        lock.unlock();
     }
 
     @Override
-    public void updateLocalizacao(Robot robot, Palete palete, Localizacao locDestino) {
+    public void updateLocalizacao(Robot robot, Palete palete) {
         //update na base de dados
         this.robots.put("", robot); //atualizar informacoes do robot na bd
         this.paletes.put(robot.getCodPalete(), palete); // atualizar localização palete
-        this.mapa.put(palete.getLocalizacao(), locDestino);
+
     }
 
     public void adicionaUtilizador(Utilizador u) {

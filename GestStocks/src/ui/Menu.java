@@ -19,8 +19,6 @@ public class Menu {
     private List<MenuPreCondition> disponivel;  // Lista de pré-condições
     private List<MenuHandler> handlers;         // Lista de handlers
 
-
-
     /**
      * Constructor for objects of class Menu
      */

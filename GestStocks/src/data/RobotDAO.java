@@ -45,19 +45,10 @@ public class RobotDAO implements Map<String, Robot> {
     }
 
     /** Limpa tabela de robots. */
-    public void clear () {
+    public static void clearRobotTable () {
         try (Connection conn = DAOconnection.getConnection()) {
             Statement stm = conn.createStatement();
             stm.executeUpdate("DELETE FROM Robot");
-        }
-        catch (Exception e) {throw new NullPointerException(e.getMessage());}
-    }
-
-    /** Apaga tabela de robots */
-    public static void clearUserTable(){
-        try (Connection conn = DAOconnection.getConnection()) {
-            Statement stm = conn.createStatement();
-            stm.executeUpdate("DROP TABLE Robot");
         }
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
@@ -145,6 +136,11 @@ public class RobotDAO implements Map<String, Robot> {
 
     @Override
     public void putAll(Map<? extends String, ? extends Robot> m) {
+
+    }
+
+    @Override
+    public void clear() {
 
     }
 

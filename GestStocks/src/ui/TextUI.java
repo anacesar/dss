@@ -17,8 +17,8 @@ public class TextUI {
      * Cria os menus e a camada de negócio.
      */
     public TextUI() {
-        this.model = new GestStocksFacade(false, true);
-        //this.model.addThings();
+        this.model = new GestStocksFacade(true, true);
+        this.model.addThings();
         scin = new Scanner(System.in);
         showMapa = new ShowMapa();
     }
