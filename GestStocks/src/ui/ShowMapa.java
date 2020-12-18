@@ -28,6 +28,7 @@ public class ShowMapa {
     }
 
     public void showMapa(){
+        System.out.println("\n");
         firstPrint();
         secondPrint();
         lastPrint();
@@ -44,14 +45,12 @@ public class ShowMapa {
         lastPrint();
     }
 
-
     public void verZonaRececao(List<String> rececao){
         System.out.println("Zona de receção");
         System.out.printf("%3s__________%7s", " ", " ");
         rececao.forEach(codigo -> System.out.printf("\n%2s|%6s%4s|%3s", " ", codigo, " ", " "));
         System.out.printf("\n%3s__________%7s\n", " ", " ");
     }
-
 }
 
 

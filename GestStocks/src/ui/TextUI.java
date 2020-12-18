@@ -13,7 +13,6 @@ public class TextUI {
 
     /**
      * Construtor.
-     *
      * Cria os menus e a camada de negócio.
      */
     public TextUI() {
@@ -50,6 +49,10 @@ public class TextUI {
         menu.run();
     }
 
+    /**
+     * Menu Principal - Opção 1
+     * Estado - Registo de um utilizador, neste caso um gestor
+     */
     private void registo(){
         try{
             System.out.println("Username: ");
@@ -69,6 +72,10 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Principal - Opção 2
+     * Estado - Login de um utilizador, neste caso um gestor
+     */
     private void login(){
         try {
             System.out.println("Username: ");
@@ -89,6 +96,11 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Utilizador
+     * Entra aqui após um login efetuado com sucesso
+     * Estado - Login de um utilizador, neste caso um gestor
+     */
     private void menuUtilizador() {
         Menu menu = new Menu(new String[]{
                 "Consultar localizações",
@@ -111,6 +123,10 @@ public class TextUI {
         menu.run();
     }
 
+    /**
+     * Menu Utilizador - Opção 1
+     * Estado - Consultar localizações
+     */
     private void consultaLocalizacoes(){
         try {
             List<String> locValidas = new ArrayList<>();
@@ -136,6 +152,10 @@ public class TextUI {
         }
     }
 
+    /**
+     * Menu Utilizador - Opção 2
+     * Estado - Ver paletes no armazém
+     */
     private void verPaletesMapa(){
         List<String> paletes_rececao = new ArrayList<>();
         Map<Integer, String> res = new HashMap<>();
@@ -149,12 +169,16 @@ public class TextUI {
 
         this.showMapa.showThingsMapa(res);
 
-        System.out.println("\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
+        System.out.println("\n\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
         try{
             if(Integer.parseInt(scin.nextLine()) ==1) this.showMapa.verZonaRececao(paletes_rececao);
         }catch(NumberFormatException e){}
     }
 
+    /**
+     * Menu Utilizador - Opção 3
+     * Estado - Ver robots no armazém
+     */
     private void verRobotsMapa(){
         List<String> robots_rececao = new ArrayList<>();
         Map<Integer, String> res = new HashMap<>();
@@ -174,6 +198,11 @@ public class TextUI {
         }catch(NumberFormatException e){}
     }
 
+    /**
+     * Menu Utilizador - Opção 4
+     * Estado - Ver mapa
+     */
+    private void verMapa(){ this.showMapa.showMapa();}
 
     private void menuAdmin() {
         Menu menu = new Menu(new String[]{

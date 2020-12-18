@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2f68365-586d-4d95-952c-271c977ff027" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/GestStocks/out/production/dss/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/out/production/dss/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/out/production/dss/model/GestStocksFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/out/production/dss/model/GestStocksFacade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/out/production/dss/model/IGestStocks.class" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/out/production/dss/model/IGestStocks.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/out/production/dss/model/Palete.class" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/out/production/dss/model/Palete.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/out/production/dss/model/Robot.class" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/out/production/dss/model/Robot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/src/model/IGestStocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/src/model/IGestStocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GestStocks/src/ui/TextUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/GestStocks/src/ui/TextUI.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GestStocks/src/model/IGestStocks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="203">
+              <caret line="17" column="85" selection-start-line="17" selection-start-column="85" selection-end-line="17" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -39,23 +32,58 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java">
+        <entry file="file://$PROJECT_DIR$/GestStocks/src/data/UtilizadorDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="108" selection-start-line="108" selection-end-line="108" />
+            <state relative-caret-position="203">
+              <caret line="135" column="26" selection-start-line="135" selection-start-column="26" selection-end-line="135" selection-end-column="26" />
               <folding>
-                <element signature="e#10053#10054#0" expanded="true" />
-                <element signature="e#10079#10080#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+              <folding>
+                <element signature="e#3968#3969#0" expanded="true" />
+                <element signature="e#4012#4013#0" expanded="true" />
+                <element signature="e#12329#12330#0" expanded="true" />
+                <element signature="e#12379#12380#0" expanded="true" />
+                <element signature="e#12435#12436#0" expanded="true" />
+                <element signature="e#12490#12491#0" expanded="true" />
+                <element signature="e#12658#12659#0" expanded="true" />
+                <element signature="e#12702#12703#0" expanded="true" />
+                <element signature="e#12735#12736#0" expanded="true" />
+                <element signature="e#12781#12782#0" expanded="true" />
+                <element signature="e#12813#12814#0" expanded="true" />
+                <element signature="e#12858#12859#0" expanded="true" />
+                <element signature="e#12911#12912#0" expanded="true" />
+                <element signature="e#12969#12970#0" expanded="true" />
+                <element signature="e#13309#13310#0" expanded="true" />
+                <element signature="e#13370#13371#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GestStocks/src/ui/TextUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="123" column="112" selection-start-line="123" selection-start-column="112" selection-end-line="123" selection-end-column="112" />
+            <state relative-caret-position="-995">
+              <caret line="45" column="56" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -66,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GestStocks/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="17" lean-forward="true" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
+            <state relative-caret-position="36">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -75,33 +103,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/UNIVERSIDADE_ANOS_ANT/2ºANO/2ºSemestre/POO-master/POO/src/view/MenuLogin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
+            <state relative-caret-position="809">
               <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GestStocks/src/model/Mapa.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1204#1205#0" expanded="true" />
-                <element signature="e#1236#1237#0" expanded="true" />
-                <element signature="e#1275#1276#0" expanded="true" />
-                <element signature="e#1299#1300#0" expanded="true" />
+                <element signature="e#1197#1198#0" expanded="true" />
+                <element signature="e#1230#1231#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/UNIVERSIDADE_ANOS_ANT/2ºANO/2ºSemestre/POO-master/POO/src/view/Menu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1313" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GestStocks/src/ui/Menu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1278">
-              <caret line="75" selection-start-line="75" selection-end-line="75" />
+            <state relative-caret-position="1242">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
             </state>
           </provider>
         </entry>
@@ -111,27 +134,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
               <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GestStocks/src/model/Localizacao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="41" selection-start-line="41" selection-end-line="44" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GestStocks/src/model/Palete.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-              <folding>
-                <element signature="e#475#476#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -164,16 +166,16 @@
         <option value="$PROJECT_DIR$/GestStocks/src/data/LocalizacaoDAO.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/data/RobotDAO.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/data/PaleteDAO.java" />
-        <option value="$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/model/Localizacao.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/model/Robot.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/model/Palete.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/ui/Menu.java" />
         <option value="$USER_HOME$/UNIVERSIDADE_ANOS_ANT/2ºANO/2ºSemestre/POO-master/POO/src/view/MenuLogin.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/model/IGestStocks.java" />
-        <option value="$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/Main.java" />
         <option value="$PROJECT_DIR$/GestStocks/src/ui/TextUI.java" />
+        <option value="$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java" />
+        <option value="$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java" />
       </list>
     </option>
   </component>
@@ -209,7 +211,14 @@
               <item name="dss" type="462c0819:PsiDirectoryNode" />
               <item name="GestStocks" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GestStocks" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="GestStocks" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="exceptions" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -277,13 +286,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25096000" />
+    <option name="totallyTimeSpent" value="25285000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1038" height="1050" extended-state="6" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29718876" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18070818" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -292,7 +301,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32959184" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32959184" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -302,7 +311,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32959184" />
+      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.32959184" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -356,16 +365,6 @@
           <caret line="38" column="52" selection-start-line="38" selection-start-column="46" selection-end-line="38" selection-end-column="52" />
           <folding>
             <element signature="e#0#13711#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GestStocks/src/data/UtilizadorDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="39" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -456,13 +455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-128">
-          <caret line="7" column="65" selection-start-line="7" selection-start-column="65" selection-end-line="7" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GestStocks/src/model/Localizacao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="339">
@@ -471,12 +463,14 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/UNIVERSIDADE_ANOS_ANT/2ºANO/2ºSemestre/POO-master/POO/src/view/Menu.java">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1313" />
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GestStocks/src/ui/Menu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1278">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="1242">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>
@@ -489,15 +483,53 @@
     </entry>
     <entry file="file://$USER_HOME$/UNIVERSIDADE_ANOS_ANT/2ºANO/2ºSemestre/POO-master/POO/src/view/MenuLogin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
+        <state relative-caret-position="809">
           <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+          <folding>
+            <element signature="e#1197#1198#0" expanded="true" />
+            <element signature="e#1230#1231#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GestStocks/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GestStocks/src/ui/TextUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-995">
+          <caret line="45" column="56" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GestStocks/src/data/DAOconnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GestStocks/src/model/IGestStocks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="203">
+          <caret line="17" column="85" selection-start-line="17" selection-start-column="85" selection-end-line="17" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GestStocks/src/data/UtilizadorDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="135" column="26" selection-start-line="135" selection-start-column="26" selection-end-line="135" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -506,28 +538,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GestStocks/src/model/GestStocksFacade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
+        <state relative-caret-position="90">
+          <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
           <folding>
-            <element signature="e#10053#10054#0" expanded="true" />
-            <element signature="e#10079#10080#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GestStocks/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="17" lean-forward="true" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GestStocks/src/ui/TextUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="123" column="112" selection-start-line="123" selection-start-column="112" selection-end-line="123" selection-end-column="112" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3968#3969#0" expanded="true" />
+            <element signature="e#4012#4013#0" expanded="true" />
+            <element signature="e#12329#12330#0" expanded="true" />
+            <element signature="e#12379#12380#0" expanded="true" />
+            <element signature="e#12435#12436#0" expanded="true" />
+            <element signature="e#12490#12491#0" expanded="true" />
+            <element signature="e#12658#12659#0" expanded="true" />
+            <element signature="e#12702#12703#0" expanded="true" />
+            <element signature="e#12735#12736#0" expanded="true" />
+            <element signature="e#12781#12782#0" expanded="true" />
+            <element signature="e#12813#12814#0" expanded="true" />
+            <element signature="e#12858#12859#0" expanded="true" />
+            <element signature="e#12911#12912#0" expanded="true" />
+            <element signature="e#12969#12970#0" expanded="true" />
+            <element signature="e#13309#13310#0" expanded="true" />
+            <element signature="e#13370#13371#0" expanded="true" />
           </folding>
         </state>
       </provider>
