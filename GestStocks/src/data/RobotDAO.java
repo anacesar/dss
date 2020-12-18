@@ -8,10 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RobotDAO implements Map<String, Robot> {
     private static RobotDAO singleton = null;
@@ -146,7 +143,17 @@ public class RobotDAO implements Map<String, Robot> {
 
     @Override
     public Set<String> keySet() {
-        return null;
+        try (Connection conn = DAOconnection.getConnection()){
+            Set<String> keySet = new HashSet<>();
+            Statement stm = conn.createStatement();
+            String sql = "SELECT * FROM robot";
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()){
+                keySet.add(rs.getString("idRobot"));
+            }
+            return keySet;
+        }
+        catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
     @Override

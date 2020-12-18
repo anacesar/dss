@@ -8,23 +8,24 @@ import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 public class GestStocksFacade implements IGestStocks {
     private Map<String, Utilizador> users;
     private Map<String, Robot> robots;
     private Map<String, Palete> paletes;
     private Map<Integer, Localizacao> mapa;
-    //private List<Requisicao> requisicoes;
-
     //queue of paletes to read
     Queue<String> queue;
     //queue of paletes ready to transport
     List<String> transporte;
 
+    /* variavies de instância que lidam com a concorrência do sistema */
     private Lock lock = new ReentrantLock();
     private Condition queueEmpty = lock.newCondition();
     private Condition noRobots = lock.newCondition();
     private Condition noPrateleiras = lock.newCondition();
+
 
     public GestStocksFacade(boolean cleanData, boolean newmap) {
         DAOconnection.createDB();
@@ -35,7 +36,10 @@ public class GestStocksFacade implements IGestStocks {
         if(newmap) createMapa();
         this.queue = new ArrayDeque<>();
         this.transporte = new ArrayList<>();
-        if(cleanData) this.clearDB();
+        if(cleanData) {
+            this.clearDB();
+            addThings();
+        }
 
         /* thread responsável por atribuir transporte */
         new Thread(() -> {
@@ -47,13 +51,14 @@ public class GestStocksFacade implements IGestStocks {
                     while(this.queue.isEmpty()) this.queueEmpty.await();
                     //invoca necessidade de transporte
                     codPalete = queue.poll();
+                    System.out.println(codPalete);
                     transportarPalete(codPalete);
                     System.out.println("transport ...");
                 }catch(paleteException | InterruptedException e) {
                     System.out.println("transport " +codPalete + " couldnt happen...");
                 }catch(robotException robot){
                     this.queue.add(codPalete);
-                    try {
+                    try {/* espera ate haver robots disponivies */
                         this.noRobots.await();
                     } catch(InterruptedException e) {
                         e.printStackTrace();
@@ -62,9 +67,10 @@ public class GestStocksFacade implements IGestStocks {
                     this.queue.add(codPalete);
                     try {
                         this.noPrateleiras.await();
-                    }catch(InterruptedException e) {
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
                     }
-                }finally {lock.unlock();}
+                } finally {lock.unlock();}
             }
         }).start();
     }
@@ -98,29 +104,27 @@ public class GestStocksFacade implements IGestStocks {
         //this.mapa.put(13, new Localizacao(10, 2, false)); //zona de entregas
     }
 
-    public Localizacao getMapa(int idNodo) {
-        return this.mapa.get(idNodo);
-    }
-
     public void addThings() {
-        /*
-        this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
-        this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
-        this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
-        */
-
         this.robots.put("", new Robot("r1", 0, 6));
         this.robots.put("", new Robot("r2", 0, 3));
         this.robots.put("", new Robot("r3", 0, 5));
         this.robots.put("", new Robot("r4", 0, 10));
-        this.robots.put("", new Robot("r5", 0, 6));
+        this.robots.put("", new Robot("r5", 0, 8));
+
+        this.users.put("", new Utilizador("ana", "anaaaa", "dfguijhghj"));
+        this.users.put("", new Utilizador("lol", "lol@lol", "loooool"));
+        this.users.put("", new Utilizador("sdf", "sd@asd", "asdfcds"));
+        this.users.put("", new Utilizador("admin", "admin", "dss"));
 
         this.paletes.put("", new Palete("p1", 2));
         this.paletes.put("", new Palete("p2", 3));
         this.paletes.put("", new Palete("p3", 9));
         this.paletes.put("", new Palete("p4", 4));
         this.paletes.put("", new Palete("p5", 1));
+    }
 
+    /* funcao usada para testar o armazenamento de paletes -> admin*/
+    public void registaPaletes(){
         /* testar armazenamento de uma palete */
         registarPalete("p6");
         registarPalete("p7");
@@ -128,9 +132,13 @@ public class GestStocksFacade implements IGestStocks {
         registarPalete("p9");
         registarPalete("p10");
         registarPalete("p11");
-
+        registarPalete("p12");
+        registarPalete("p13");
     }
 
+    public Localizacao getMapa(int idNodo) {
+        return this.mapa.get(idNodo);
+    }
 
     public void registarPalete(String codPalete) {
         // add de uma palete registada na zona de receção (nodo 0 do mapa)
@@ -147,6 +155,15 @@ public class GestStocksFacade implements IGestStocks {
             Palete p = this.paletes.get(codPalete);
             if(p == null) localizacoes.put(codPalete, -1); //palete nao esta no armazem
             else localizacoes.put(codPalete, p.getLocalizacao());
+        }
+        return localizacoes;
+    }
+
+    public Map<String, Integer> localizacoesRobots(List<String> robots) {
+        Map<String, Integer> localizacoes = new HashMap<>();
+        for(String codRobot : robots) {
+            Robot r = this.robots.get(codRobot);
+            localizacoes.put(codRobot, r.getLocalizacao());
         }
         return localizacoes;
     }
@@ -168,7 +185,6 @@ public class GestStocksFacade implements IGestStocks {
         for(Robot r : this.robots.values()) {
             if(r.getEstado() == 0){ //robot esta livre
                 double dc = distanciaPalete(r.getLocalizacao(), locPalete);
-                System.out.println("robot: " + r.getIdRobot() + "   d= " + dc);
                 if(dc < d) {
                     d = dc;
                     robot = r;
@@ -280,7 +296,8 @@ public class GestStocksFacade implements IGestStocks {
 
     @Override
     public void paleteRecolhida(Robot robot, int locPalete) {
-        robot.setLocalizacao(locPalete);
+        if(robot != null) robot.setLocalizacao(locPalete);
+
         if(locPalete != 1) {
             Localizacao locP = getMapa(locPalete);
             locP.setOcupado(false);//localização livre
@@ -315,6 +332,18 @@ public class GestStocksFacade implements IGestStocks {
 
     }
 
+    public List<String> paletesKeySet(){
+        return new ArrayList<>(this.paletes.keySet());
+    }
+
+    public List<String> robotsKeySet(){
+        return new ArrayList<>(this.robots.keySet());
+    }
+
+    public List<String> paletesArmazenadas(){
+        return this.paletes.values().stream().filter(palete -> palete.getLocalizacao()>1 && palete.getLocalizacao()<11).map(Palete::getCodPalete).collect(Collectors.toList());
+    }
+
     public void adicionaUtilizador(Utilizador u) {
         this.users.put(u.getUsername(), u);
     }
@@ -323,35 +352,31 @@ public class GestStocksFacade implements IGestStocks {
         return this.users.containsKey(username);
     }
 
-    public boolean validaUser(String username, String pass) {
-        return this.users.get(username).getPassword().equals(pass);
-    }
+    public boolean validaUser(String username, String pass) { return this.users.get(username).getPassword().equals(pass); }
 
     public boolean haUsers(){
         return !this.users.isEmpty();
     }
 
-    public boolean haPaletes(){
-        return !this.paletes.isEmpty();
-    }
+    public boolean haPaletes(){ return !this.paletes.isEmpty(); }
 
-    public boolean haRobots(){
-        return !this.robots.isEmpty();
-    }
+    public boolean haRobots(){ return !this.robots.isEmpty(); }
 
     public boolean existePalete(String codPalete) {
         return this.paletes.containsKey(codPalete);
     }
 
-    public Map<Integer, String> paletes_mapa(){
-        Map<Integer, String> paletes = new HashMap<>();
-        //percorrer as paletes e ver as localizacoes
-        this.paletes.values().forEach(palete -> paletes.put(palete.getLocalizacao(), palete.getCodPalete()));
-        return paletes;
+
+    public void requisicao(String requisitada){
+        Palete palete = this.paletes.remove(requisitada);
+        int prateleira = palete.getLocalizacao();
+
+        //simulacao do transporte da prateleira para a zona de rececao
+        //so remove a palete da base de dados e atualiza a prateleira
+        //e ignorado o transporte por um robot
+
+        paleteRecolhida(null, prateleira);
     }
 
-    public List<String> paletesKeySet(){
-        return new ArrayList<>(this.paletes.keySet());
-    }
 }
 

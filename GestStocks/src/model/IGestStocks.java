@@ -11,6 +11,8 @@ public interface IGestStocks {
 
     Map<String, Integer> localizacoes(List<String> paletes);
 
+    Map<String, Integer> localizacoesRobots(List<String> robots);
+
     Robot getRobot(int locPalete);
 
     void forneceRotas(Robot robot, String codPalete, int locPalete, int locDestino);
@@ -22,6 +24,12 @@ public interface IGestStocks {
     void paleteEntregue(Robot robot, Palete palete, int locDestino) ;
 
     void updateLocalizacao(Robot robot, Palete palete);
+
+    List<String> paletesKeySet();
+
+    List<String> robotsKeySet();
+
+    List<String> paletesArmazenadas();
 
     void adicionaUtilizador(Utilizador u);
 
@@ -39,6 +47,7 @@ public interface IGestStocks {
 
     void addThings();
 
-    List<String> paletesKeySet();
+    void requisicao(String requisitada);
 
+    void registaPaletes();
 }

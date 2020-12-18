@@ -33,21 +33,22 @@ public class ShowMapa {
         lastPrint();
     }
 
-    public void showPaletesMapa(Map<Integer, String> paletes){
+    public void showThingsMapa(Map<Integer, String> codigos){
         firstPrint();
         System.out.printf("\n%2s|%10s|%5s", " ", "[1]   ", " ");
         for(int i=ZONA_RECECAO+1; i<NR_PRATELEIRAS+1; i++) {
-            String codPalete = paletes.get(i);
-            if(codPalete == null) System.out.printf("|%10s|%3s", "          ", " ");
-            else System.out.printf("|%6s%4s|%3s", codPalete, " ", " ");
+            String codigo = codigos.get(i);
+            if(codigo == null) System.out.printf("|%10s|%3s", "          ", " ");
+            else System.out.printf("|%6s%4s|%3s", codigo, " ", " ");
         }
         lastPrint();
     }
 
-    public void verZonaRececao(List<String> paletes_rececao){
+
+    public void verZonaRececao(List<String> rececao){
         System.out.println("Zona de receção");
         System.out.printf("%3s__________%7s", " ", " ");
-        paletes_rececao.forEach(palete -> System.out.printf("\n%2s|%6s%4s|%3s", " ", palete, " ", " "));
+        rececao.forEach(codigo -> System.out.printf("\n%2s|%6s%4s|%3s", " ", codigo, " ", " "));
         System.out.printf("\n%3s__________%7s\n", " ", " ");
     }
 

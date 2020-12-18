@@ -18,7 +18,6 @@ public class TextUI {
      */
     public TextUI() {
         this.model = new GestStocksFacade(true, true);
-        this.model.addThings();
         scin = new Scanner(System.in);
         showMapa = new ShowMapa();
     }
@@ -28,8 +27,7 @@ public class TextUI {
      */
     public void run() {
         System.out.println("Bem vindo ao Sistema de Gestão de Stocks!");
-        this.menuUtilizador();
-        //this.menuInicial();
+        this.menuInicial();
         System.out.println("Até breve...");
     }
 
@@ -72,7 +70,6 @@ public class TextUI {
     }
 
     private void login(){
-        boolean sucesso=true;
         try {
             System.out.println("Username: ");
             String username = scin.nextLine();
@@ -80,9 +77,10 @@ public class TextUI {
                 System.out.println("Password: ");
                 String pass = scin.nextLine();
                 if(!this.model.validaUser(username,pass)) System.out.println("Username e Password não coincide!");
-                else menuUtilizador();
+                else if(username.equals("admin")){
+                    menuAdmin();
+                }else menuUtilizador();
             }else {
-                sucesso=false;
                 System.out.println("Não se encontra registado no sistema! \nPor favor faça o registo ou tente novamente.");
             }
 
@@ -96,7 +94,6 @@ public class TextUI {
                 "Consultar localizações",
                 "Ver paletes no armazém",
                 "Ver robots no armazém",
-                "Ver mapa"
         });
 
         // Registar pré-condições das transições´
@@ -110,7 +107,6 @@ public class TextUI {
         menu.setHandler(1, ()->consultaLocalizacoes());
         menu.setHandler(2, ()->verPaletesMapa());
         menu.setHandler(3, ()->verRobotsMapa());
-        menu.setHandler(4, ()->verMapa());
 
         menu.run();
     }
@@ -151,7 +147,7 @@ public class TextUI {
             else res.put(map.getValue(), map.getKey());
         }));
 
-        this.showMapa.showPaletesMapa(res);
+        this.showMapa.showThingsMapa(res);
 
         System.out.println("\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
         try{
@@ -160,9 +156,65 @@ public class TextUI {
     }
 
     private void verRobotsMapa(){
+        List<String> robots_rececao = new ArrayList<>();
+        Map<Integer, String> res = new HashMap<>();
 
+        Map<String, Integer> locs = this.model.localizacoesRobots(this.model.robotsKeySet());
+
+        locs.entrySet().stream().forEach((map -> {
+            if(map.getValue() == 0) robots_rececao.add(map.getKey());
+            else res.put(map.getValue(), map.getKey());
+        }));
+
+        this.showMapa.showThingsMapa(res);
+
+        System.out.println("\nSelecione 1 para ver paletes em zona de receção (Pressione outra para sair)");
+        try{
+            if(Integer.parseInt(scin.nextLine()) ==1) this.showMapa.verZonaRececao(robots_rececao);
+        }catch(NumberFormatException e){}
     }
 
-    private void verMapa(){ this.showMapa.showMapa();}
 
+    private void menuAdmin() {
+        Menu menu = new Menu(new String[]{
+                "Simular requisição",
+                "Testar programa"
+        });
+
+        // Registar pré-condições das transições´
+        menu.setPreCondition(1, ()->this.model.haPaletes());
+
+        // Registar os handlers
+        menu.setHandler(1, ()->requisicao());
+        menu.setHandler(2, ()->test());
+
+        menu.run();
+    }
+
+    private void requisicao(){
+        try {
+            System.out.println("Paletes disponiveís para requisição: ");
+            List<String> armazenadas = this.model.paletesArmazenadas();
+            armazenadas.forEach(System.out::println);
+
+            System.out.println("Indique quantas paletes pretende requisitar: ");
+            int num = Integer.parseInt(scin.nextLine());
+            System.out.println("Introduza os códigos das paletes:");
+
+            List<String> requisitadas = new ArrayList<>();
+            for(int i=0; i<num; i++ ) {
+                String cod = scin.nextLine();
+                if(this.model.existePalete(cod)) requisitadas.add(cod);
+            }
+
+            requisitadas.forEach(palete -> this.model.requisicao(palete));
+
+        }catch (NullPointerException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void test(){
+        this.model.registaPaletes();
+    }
 }

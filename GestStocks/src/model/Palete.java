@@ -4,7 +4,6 @@ public class Palete {
     private String codPalete;
     private int localizacao; //nodo do mapa
 
-
     public Palete(String codPalete, int loc){
         this.codPalete = codPalete;
         this.localizacao=loc;
@@ -13,7 +12,6 @@ public class Palete {
     public String getCodPalete() {
         return this.codPalete;
     }
-
 
     public int getLocalizacao() {
         return this.localizacao;

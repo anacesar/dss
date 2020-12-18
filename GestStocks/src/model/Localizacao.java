@@ -13,7 +13,6 @@ public class Localizacao {
         this.ocupado = false;
     }
 
-
     public Localizacao(int x, int y) {
         this.x = x;
         this.y = y;
@@ -58,15 +57,4 @@ public class Localizacao {
                 ", ocupado=" + ocupado +
                 '}';
     }
-
-    /*
-    public boolean[] getNiveis() {
-        return niveis;
-    }
-
-    public void setNiveis(boolean[] niveis) {
-        this.niveis = niveis;
-    }
-
-     */
 }

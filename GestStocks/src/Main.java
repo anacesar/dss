@@ -1,10 +1,5 @@
-import model.GestStocksFacade;
-
 import ui.TextUI;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Main {
 
