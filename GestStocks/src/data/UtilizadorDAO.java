@@ -51,17 +51,6 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
-    /** Comando usado para criar as tabelas dos utilizadores na base de dados. */
-    public void createUserTables(){
-        StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS Utilizador ");
-        sql.append("username VARCHAR(255) NOT NULL PRIMARY KEY, ");
-        sql.append("email VARCHAR(255) DEFAULT NULL, ");
-        sql.append("password VARCHAR(255) DEFAULT NULL)");
-        //sql.append("cargo int(2) DEFAULT 0, ");
-
-        DAOconnection.createTables(sql.toString());
-    }
-
     /**
      * @return número de utilizadores guardados na base de dados
      */
@@ -184,17 +173,6 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends Utilizador> utilizadores) {
-        for(Utilizador u : utilizadores.values())
-            this.put(u.getUsername(), u);
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
     /* Devolve o keySet dos utilizadores presentes na tabela */
     public Set<String> keySet(){
         try (Connection conn = DAOconnection.getConnection()){
@@ -226,8 +204,16 @@ public class UtilizadorDAO implements Map<String, Utilizador> {
     }
 
     @Override
+    public void putAll(Map<? extends String, ? extends Utilizador> utilizadores) {
+        for(Utilizador u : utilizadores.values())
+            this.put(u.getUsername(), u);
+    }
+
+    @Override
     public Set<Entry<String, Utilizador>> entrySet() {
         return null;
     }
 
+    @Override
+    public void clear() {}
 }

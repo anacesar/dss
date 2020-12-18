@@ -50,6 +50,16 @@ public class RobotDAO implements Map<String, Robot> {
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
+    public void updateEstado(Robot robot){
+        try (Connection conn = DAOconnection.getConnection()){
+            Collection<Robot> col = new ArrayList<>();
+            Statement stm = conn.createStatement();
+            String sql = "UPDATE robot SET estado=" +robot.getEstado() + " where idRobot='" + robot.getIdRobot()+"'";
+            stm.executeQuery(sql);
+        }
+        catch (Exception e) {throw new NullPointerException(e.getMessage());}
+    }
+
     @Override
     public int size() {
         return DAOconnection.size("Robot");
@@ -132,16 +142,6 @@ public class RobotDAO implements Map<String, Robot> {
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends Robot> m) {
-
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
     public Set<String> keySet() {
         try (Connection conn = DAOconnection.getConnection()){
             Set<String> keySet = new HashSet<>();
@@ -176,15 +176,10 @@ public class RobotDAO implements Map<String, Robot> {
         return null;
     }
 
+    @Override
+    public void putAll(Map<? extends String, ? extends Robot> m) { }
 
-    public void updateEstado(Robot robot){
-        try (Connection conn = DAOconnection.getConnection()){
-            Collection<Robot> col = new ArrayList<>();
-            Statement stm = conn.createStatement();
-            String sql = "UPDATE robot SET estado=" +robot.getEstado() + " where idRobot='" + robot.getIdRobot()+"'";
-            stm.executeQuery(sql);
-        }
-        catch (Exception e) {throw new NullPointerException(e.getMessage());}
-    }
+    @Override
+    public void clear() {}
 
 }

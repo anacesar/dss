@@ -60,17 +60,14 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
-    @Override
     public int size() {
         return DAOconnection.size("Localizacao");
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size()==0;
     }
 
-    @Override
     public boolean containsKey(Object key){
         boolean r;
         try (Connection conn = DAOconnection.getConnection();
@@ -86,18 +83,11 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
         return r;
     }
 
-    @Override
-    public boolean containsValue(Object value) {
-        return false;
-    }
-
-
     /**
      *
      * @param key idNodo do mapa de localizações
      * @return Localizacao associada ao idNodo(key) - null caso contrário
      */
-    @Override
     public Localizacao get(Object key) {
         try (Connection conn = DAOconnection.getConnection()){
             Localizacao l = null;
@@ -114,7 +104,6 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
         catch (Exception e) {throw new NullPointerException(e.getMessage());}
     }
 
-    @Override
     public Localizacao put(Integer key, Localizacao loc) {
         Localizacao res = null;
         int ocupado = loc.getOcupado() ? 1 : 0;
@@ -155,5 +144,12 @@ public class LocalizacaoDAO implements Map<Integer, Localizacao> {
     public Set<Entry<Integer, Localizacao>> entrySet() {
         return null;
     }
+
+
+    @Override
+    public boolean containsValue(Object value) {
+        return false;
+    }
+
 
 }

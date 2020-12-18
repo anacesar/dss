@@ -369,9 +369,7 @@ public class GestStocksFacade implements IGestStocks {
 
     public boolean haRobots(){ return !this.robots.isEmpty(); }
 
-    public boolean existePalete(String codPalete) {
-        return this.paletes.containsKey(codPalete);
-    }
+    public boolean existePalete(String codPalete) { return this.paletes.containsKey(codPalete); }
 
 
     public void requisicao(String requisitada){
